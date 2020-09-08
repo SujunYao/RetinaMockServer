@@ -1,0 +1,6 @@
+{
+  "patients": 100,
+  "records": 85,
+  "photos": 150,
+  "maxDrForOneSite": 8
+}
