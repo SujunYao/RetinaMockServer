@@ -1,5 +1,6 @@
 import express from 'express';
 import APP from './app';
+import { generateData } from './MockData/generateData';
 
 // const APP = express();
 

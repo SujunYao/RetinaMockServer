@@ -1,45 +1,45 @@
 import './enum';
 /**
- * Interfaces for the common template;
+ * interfaces for the common template;
  * @Sujun
  * **/
 
-interface HISTORY_INFO_TEMPLATE_SUBITEM_D {
+export interface HISTORY_INFO_TEMPLATE_SUBITEM_D {
   value: string | number,
   unit?: string,
 }
 
-interface HISTORY_INFO_TEMPLATE_PARAM {
+export interface HISTORY_INFO_TEMPLATE_PARAM {
   sub_item?: string,
   data: HISTORY_INFO_TEMPLATE_SUBITEM_D
 }
 
-interface HISTORY_INFO_TEMPLATE {
+export interface HISTORY_INFO_TEMPLATE {
   field_name?: string,
   template_id: number,
   para?: HISTORY_INFO_TEMPLATE_PARAM,
 }
 
-interface RESULT {
+export interface RESULT {
   AI: string | number | boolean,
   doctor: string | number | boolean,
 }
 
-type DIS_RESULT = {
+export type DIS_RESULT = {
   [key in DISEASES]: number | boolean | string
 }
 
-interface BOX {
+export interface BOX {
   centerPoint: { x: number, y: number },
   radius?: number,
 }
 
-interface POINT {
+export interface POINT {
   x: number,
   y: number,
 }
 
-interface RATOR {
+export interface RATOR {
   metaId: string,
   startPoint: POINT,
   endPoint: POINT,
@@ -51,7 +51,7 @@ interface RATOR {
   }>
 }
 
-interface CONFIG_LESSION {
+export interface CONFIG_LESSION {
   id: LESSIONS,
   is_display: boolean,
   isSupport: boolean,
@@ -63,37 +63,37 @@ interface CONFIG_LESSION {
   pm_related: BOOLEAN_STATE,
 }
 
-interface CONFIG_DISEASE {
+export interface CONFIG_DISEASE {
   id: DISEASES,
   is_display: boolean,
   isSupport: boolean,
   checkbox: CHECKBOX_MODE,
 }
 
-interface CONFIG_MODULE_ITEM {
+export interface CONFIG_MODULE_ITEM {
   id: MODULE_PERMISSIONS | MEASURE_LINES | MARKERS,
   is_display: boolean,
   is_extended?: boolean,                                                  // 天津四特别扩展开关
   detail?: Array<CONFIG_MODULE_ITEM | CONFIG_LESSION | CONFIG_DISEASE>,
 }
 
-type CONFIG = {
+export type CONFIG = {
   [key in MODULE_PERMISSIONS]: CONFIG_MODULE_ITEM
 }
 
-type PERMISSION = {
+export type PERMISSION = {
   [key in OPERATION_PERMISSIONS]: boolean;
 };
 
 
 /**
- * Interfaces for the JSON data(./MockData/*.json);
+ * interfaces for the JSON data(./MockData/*.json);
  * @Sujun
  * **/
 
-interface PATIENT_OT_INFO { } // TODO: remove?
+export interface PATIENT_OT_INFO { } // TODO: remove?
 
-interface DEVICE {
+export interface DEVICE_DATA {
   id: string,
   name: string,
   orgID: string,
@@ -104,7 +104,7 @@ interface DEVICE {
   storageFormat: string,                    // 存储格式
 }
 
-interface ORG_DATA {
+export interface ORG_DATA {
   id: string,
   name: string,
   address: string,
@@ -116,7 +116,7 @@ interface ORG_DATA {
   authorized: Array<string>,
 }
 
-interface PATIENT_DATA {
+export interface PATIENT_DATA {
   id: string,
   mobile: string,
   name: string,
@@ -132,7 +132,7 @@ interface PATIENT_DATA {
   update_time: Date,                      // 更新时间
 }
 
-interface USER_DATA {
+export interface USER_DATA {
   id: string,
   userName: string,
   name: string,
@@ -143,12 +143,51 @@ interface USER_DATA {
   orgID: string,
 }
 
+export interface RECORD_DATA {
+  id: string,
+  pid: string,
+  examTime: string,
+  diagnosis?: number,
+  photoIDs: Array<string>,
+  ai_disease?: Array<DIS_RESULT>,
+  doctor_disease?: Array<DIS_RESULT>,
+  checkTime?: string,
+  reviewed?: RECORD_STATE,
+  uploadTime?: string,
+  uploaderID?: string,
+  uploaderORGID?: string,
+  viewerID?: string,
+  viewerORGID?: string,
+}
+
+export interface PHOTO_DATA {
+  ai_markers: []
+  art_mask: string,
+  art_ratio: RESULT,
+  brightness: number
+  contrast: number,
+  cup_disk_mask: string,
+  cup_disk_ratio: RESULT
+  diskBox: BOX,
+  filesize: string,
+  height: number,
+  id: number,
+  imageUrl: string,
+  maculaBox: BOX,
+  markers: Array<MARKER_RES>
+  measureData: MEASUER_RES,
+  px_ratio: number,
+  side: number,
+  thumbUrl: string,
+  width: number,
+}
+
 /**
- * Interfaces for the response data;
+ * interfaces for the response data;
  * @Sujun
  * **/
 
-interface HISTORY_INFO_BRIEFLY_RES {
+export interface HISTORY_INFO_BRIEFLY_RES {
   main: string | Array<string>,
   exam: string | Array<string>,
   history: string | Array<string>,
@@ -157,7 +196,7 @@ interface HISTORY_INFO_BRIEFLY_RES {
   patient_info: string | Array<string>,
 }
 
-interface HISTORY_INFO_RES {
+export interface HISTORY_INFO_RES {
   main: Array<HISTORY_INFO_TEMPLATE>,          // 主诉 ?? Discarded ??
   exam: Array<HISTORY_INFO_TEMPLATE>,          // 检查
   history: Array<HISTORY_INFO_TEMPLATE>,       // 病史
@@ -166,7 +205,7 @@ interface HISTORY_INFO_RES {
   patient_info: Array<HISTORY_INFO_TEMPLATE>,  // 患者信息(住院号/社保号/身份证号/就诊卡号)
 }
 
-interface MARKER_RES {
+export interface MARKER_RES {
   metaId: string,
   startPoint: POINT,
   endPoint: POINT,
@@ -176,7 +215,7 @@ interface MARKER_RES {
   comment: string,
 }
 
-type MEASUER_RES = {
+export type MEASUER_RES = {
   [key in MEASURES]: {
     numerator: RATOR,
     denominator: RATOR,
@@ -185,11 +224,11 @@ type MEASUER_RES = {
   };
 };
 
-interface LESION_RES {
+export interface LESION_RES {
   [key: string]: RESULT
 }
 
-interface PHOTO_RES {
+export interface PHOTO_RES {
   [key: string]: {
     ai_markers: []
     art_mask: string,
@@ -215,22 +254,22 @@ interface PHOTO_RES {
   }
 }
 
-interface PHOTO_MAIN_RES {
+export interface PHOTO_MAIN_RES {
   left_eye: PHOTO_RES
   right_eye: PHOTO_RES
 }
 
-interface PHOTO_BRIEFLY_RES {
-  id: number, // TODO type is ok? 
+export interface PHOTO_BRIEFLY_RES {
+  id: number, // TODO export type is ok? 
   thumbUrl: string,
 }
 
-interface PHOTO_MAIN_BRIEFLY_RES {
+export interface PHOTO_MAIN_BRIEFLY_RES {
   left_eye: Array<PHOTO_BRIEFLY_RES>
   right_eye: Array<PHOTO_BRIEFLY_RES>
 }
 
-interface RECOR_DETIAL_RES {
+export interface RECOR_DETIAL_RES {
   comment: string,
   disease: {
     left_eye: DIS_RESULT,
@@ -251,7 +290,7 @@ interface RECOR_DETIAL_RES {
   },
 }
 
-interface RECORD_RES {
+export interface RECORD_RES {
   id: string,
   pid: string,
   examTime: string,
@@ -275,7 +314,7 @@ interface RECORD_RES {
   viewer_site?: string,
 }
 
-interface PATIENT_RES {
+export interface PATIENT_RES {
   name: string,
   age?: number,
   gender: GENDER,
@@ -292,7 +331,7 @@ interface PATIENT_RES {
   exam_list: Array<RECORD_RES>
 }
 
-interface USER_RES {
+export interface USER_RES {
   id: string,
   name: string,
   username: string,
@@ -311,19 +350,19 @@ interface USER_RES {
   config: CONFIG,
 }
 
-interface ORG_RES {
+export interface ORG_RES {
   id: string,
   name: string,
   admin: string,                        // TODO: whether has more than 2 admin? confirm with XIAOYAN
 }
-interface USER_BRIEFLY_RES {
+export interface USER_BRIEFLY_RES {
   user_id: string,
   name: string,
   username: string,
   org_name: string,
 }
 
-interface RECORDS_RES {
+export interface RECORDS_RES {
   data: Array<RECORD_RES>,
   totalLen: number,                       // 数据总长度
   reviewLen: number,                       // 未审核长度
