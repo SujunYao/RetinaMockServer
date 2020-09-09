@@ -1,13 +1,39 @@
 import fs from 'fs';
 import path from 'path';
-import { Response, Request } from "express";
+import { Response, Request, urlencoded } from "express";
+import { USER_DATA, ORG_DATA } from '../interfaces';
+import { getToken } from './sys';
 
 const SYS = path.join(__dirname, '../MockData/sys.json');
-const USER = path.join(__dirname, '../MockData/user.json');
+const USERS = path.join(__dirname, '../MockData/users.json');
 const PRODUCT_INFO = path.join(__dirname, '../MockData/productInfo.json');
-const SITES = path.join(__dirname, '../MockData/orgs.json');
+const ORGS = path.join(__dirname, '../MockData/orgs.json');
 
 export default {
+  login: (req: Request, res: Response) => {
+    const users = JSON.parse(fs.readFileSync(USERS, 'utf8'));
+    const orgs = JSON.parse(fs.readFileSync(ORGS, 'utf8'));
+    const productInfo = JSON.parse(fs.readFileSync(PRODUCT_INFO, 'utf8'));
+    let str = '';
+    req.on('data', (chunk) => { str += chunk; });
+    req.on('end', () => {
+      const reqData = JSON.parse(str);
+      const { password, username, lang } = reqData;
+      const [loginUser]: Array<USER_DATA> = users.filter((user: USER_DATA) => user.password === password && user.userName === username);
+      res.statusCode = loginUser ? 200 : 500;
+      if (loginUser) {
+        const [org]: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.id === loginUser.orgID);
+      }
+      const token = getToken(loginUser.id);
+      res.json({
+        ...loginUser || {},
+        
+        product_info: productInfo || [],
+        status: res.statusCode,
+        error_message: !loginUser && 'Could not found the user in the fack data("user.json")',
+      });
+    });
+  }
   // login: (req: Request, res: Response) => {
   //   const users = JSON.parse(fs.readFileSync(USER, 'utf8'));
   //   const bgSysInfo = JSON.parse(fs.readFileSync(SYS, 'utf8'));

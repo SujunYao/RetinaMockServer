@@ -59,6 +59,7 @@ const USERS = path.join(__dirname, './users.json');
 const ORGS = path.join(__dirname, './orgs.json');
 const PHOTOS = path.join(__dirname, './photos.json');
 const DEVICES = path.join(__dirname, './devices.json');
+const SYS = path.join(__dirname, './sys.json');
 
 const CONF = JSON.parse(fs.readFileSync(MATERIAL.CONF, 'utf8'));
 const OTS = JSON.parse(fs.readFileSync(MATERIAL.OT, 'utf8'));
@@ -629,6 +630,17 @@ export const generalRecords = () => {
     return console.info(`Has generated mock data into ${RECORDS}`);
   });
 };
+
+export const clearSYS = () => {
+  fs.writeFile(SYS, JSON.stringify({
+    TOKENS: {},
+    LOGIN_USER: {},
+    LANG: '',
+  }), (err) => {
+    if (err) return console.error(err);
+    return console.info(`Has generated mock data into ${SYS}`);
+  });
+}
 
 export const generateAllData = () => {
   generalOrgs();

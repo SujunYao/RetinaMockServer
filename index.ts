@@ -1,10 +1,11 @@
 import express from 'express';
 import APP from './app';
-import { generateAllData } from './MockData/generateData';
+import { generateAllData, clearSYS } from './MockData/generateData';
 
 // const APP = express();
 
 APP.use('/Files', express.static('Files'));
+clearSYS();
 generateAllData();
 // app.use('/static', express.static(path.join(__dirname, 'public')))
 
