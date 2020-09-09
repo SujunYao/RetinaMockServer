@@ -2,12 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import { Response, Request, urlencoded } from "express";
 import { USER_DATA, ORG_DATA } from '../interfaces';
-import { getToken } from './sys';
+import sys from './sys';
 
 const SYS = path.join(__dirname, '../MockData/sys.json');
 const USERS = path.join(__dirname, '../MockData/users.json');
-const PRODUCT_INFO = path.join(__dirname, '../MockData/productInfo.json');
+const PRODUCT_INFO = path.join(__dirname, '../MockData/RawMaterials/productInfo.json');
 const ORGS = path.join(__dirname, '../MockData/orgs.json');
+const AUTHOR_PREFIX = 'Basic ';
 
 export default {
   login: (req: Request, res: Response) => {
@@ -18,16 +19,18 @@ export default {
     req.on('data', (chunk) => { str += chunk; });
     req.on('end', () => {
       const reqData = JSON.parse(str);
-      const { password, username, lang } = reqData;
+      const author = req.header('Authorization');
+      const [username, password]: Array<string> = atob(author?.split(AUTHOR_PREFIX).slice(-1).pop() || '').split(':')
+      console.log(reqData);
       const [loginUser]: Array<USER_DATA> = users.filter((user: USER_DATA) => user.password === password && user.userName === username);
       res.statusCode = loginUser ? 200 : 500;
       if (loginUser) {
         const [org]: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.id === loginUser.orgID);
+        const token = sys.getToken(loginUser.id);
       }
-      const token = getToken(loginUser.id);
+
       res.json({
         ...loginUser || {},
-        
         product_info: productInfo || [],
         status: res.statusCode,
         error_message: !loginUser && 'Could not found the user in the fack data("user.json")',
