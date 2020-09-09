@@ -1,0 +1,362 @@
+[
+  {
+    "id": "1100001",
+    "priority": "T00000",
+    "valueType": "float",
+    "unit": "",
+    "name": "左眼裸眼视力",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100002",
+    "priority": "T00001",
+    "valueType": "float",
+    "unit": "",
+    "name": "右眼裸眼视力",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100003",
+    "priority": "T00002",
+    "valueType": "float",
+    "unit": "",
+    "name": "左眼矫正视力",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100004",
+    "priority": "T00003",
+    "valueType": "float",
+    "unit": "",
+    "name": "右眼矫正视力",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100005",
+    "priority": "T00004",
+    "valueType": "int",
+    "unit": "mmHg",
+    "name": "左眼眼压",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100006",
+    "priority": "T00005",
+    "valueType": "int",
+    "unit": "mmHg",
+    "name": "右眼眼压",
+    "parent": "",
+    "group": "OT_RES"
+  },
+  {
+    "id": "1100007",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "门诊/住院",
+    "parent": "",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100008",
+    "priority": "T00001",
+    "valueType": "",
+    "unit": "",
+    "name": "医保/自费",
+    "parent": "",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100009",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "门诊",
+    "parent": "1100007",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100010",
+    "priority": "T00001",
+    "valueType": "",
+    "unit": "",
+    "name": "住院",
+    "parent": "1100007",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100011",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "医保",
+    "parent": "1100008",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100012",
+    "priority": "T00001",
+    "valueType": "",
+    "unit": "",
+    "name": "自费",
+    "parent": "1100008",
+    "group": "RECORD_NOTE"
+  },
+  {
+    "id": "1100013",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "既往体健",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100014",
+    "priority": "T00001",
+    "valueType": "int",
+    "unit": "年",
+    "name": "糖尿病",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100015",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "1型",
+    "parent": "1100014",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100016",
+    "priority": "T00001",
+    "valueType": "",
+    "unit": "",
+    "name": "2型",
+    "parent": "1100014",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100017",
+    "priority": "T00002",
+    "valueType": "int",
+    "unit": "年",
+    "name": "高血压",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100018",
+    "priority": "T00003",
+    "valueType": "string",
+    "unit": "",
+    "name": "眼部外伤史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100019",
+    "priority": "T00003",
+    "valueType": "string",
+    "unit": "",
+    "name": "眼科疾病史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100020",
+    "priority": "T00004",
+    "valueType": "string",
+    "unit": "",
+    "name": "眼科手术史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100021",
+    "priority": "T00005",
+    "valueType": "int",
+    "unit": "年",
+    "name": "心脏病",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100022",
+    "priority": "T00006",
+    "valueType": "int",
+    "unit": "年",
+    "name": "高血脂",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100023",
+    "priority": "T00007",
+    "valueType": "int",
+    "unit": "年",
+    "name": "关节炎",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100024",
+    "priority": "T00008",
+    "valueType": "int",
+    "unit": "年",
+    "name": "贫血",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100025",
+    "priority": "T00009",
+    "valueType": "int",
+    "unit": "年",
+    "name": "肾脏病",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100026",
+    "priority": "T00010",
+    "valueType": "string",
+    "unit": "",
+    "name": "服药史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100027",
+    "priority": "T00011",
+    "valueType": "string",
+    "unit": "",
+    "name": "免疫性疾病史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100028",
+    "priority": "T00012",
+    "valueType": "string",
+    "unit": "",
+    "name": "遗传病史",
+    "parent": "",
+    "group": "HISTORY"
+  },
+  {
+    "id": "1100029",
+    "priority": "T00000",
+    "valueType": "",
+    "unit": "",
+    "name": "视物模糊",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100030",
+    "priority": "T00001",
+    "valueType": "",
+    "unit": "",
+    "name": "视物变形",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100031",
+    "priority": "T00002",
+    "valueType": "",
+    "unit": "",
+    "name": "视物变暗",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100032",
+    "priority": "T00003",
+    "valueType": "",
+    "unit": "",
+    "name": "单方向视物变暗",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100033",
+    "priority": "T00004",
+    "valueType": "",
+    "unit": "",
+    "name": "闪光感",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100034",
+    "priority": "T00005",
+    "valueType": "",
+    "unit": "",
+    "name": "黑影飘动",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100035",
+    "priority": "T00006",
+    "valueType": "",
+    "unit": "",
+    "name": "视物重影",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100036",
+    "priority": "T00007",
+    "valueType": "",
+    "unit": "",
+    "name": "眼痛",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100037",
+    "priority": "T00008",
+    "valueType": "",
+    "unit": "",
+    "name": "眼胀",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100038",
+    "priority": "T00009",
+    "valueType": "",
+    "unit": "",
+    "name": "畏光",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100039",
+    "priority": "T00010",
+    "valueType": "",
+    "unit": "",
+    "name": "头痛",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  },
+  {
+    "id": "1100040",
+    "priority": "T00011",
+    "valueType": "",
+    "unit": "",
+    "name": "虹视",
+    "parent": "",
+    "group": "SELF_EXPLAN"
+  }
+]

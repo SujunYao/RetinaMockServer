@@ -23,5 +23,8 @@
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   },
+  "nodemonConfig": {
+    "ignore": ["MockData/*.json"]
+  },
   "dependencies": {}
 }

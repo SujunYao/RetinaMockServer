@@ -1,15 +1,32 @@
-enum MARK_SHAPE {
+export enum APP_VERSION {
+  ALL = 'all',
+  DR = 'dr',
+}
+
+export enum SIDES {
+  LEFT = 1,
+  RIGHT = 0,
+}
+
+export enum TPL_GROUPS {
+  HISTORY = 'HISTORY',            // 病史分组名
+  OT_RES = 'OT_RES',              // 其他检查结果分组名
+  SELF_EXPLAN = 'SELF_EXPLAN',    // 主诉(患者自我描述症状)分组名
+  RECORD_NODE = 'RECORD_NOTE',    // 检查备注
+}
+
+export enum MARK_SHAPE {
   CRICLE = 'Circle',
   RECT = 'Rect'
 }
 
-enum MEASURES {
+export enum MEASURES {
   ART = 'art_ratio',
   DISK_CUP = 'disk_cup_ratio',
   CUSTOM_CUP = 'custom_ratio',
 }
 
-enum PHOTO_QUALITY {
+export enum PHOTO_QUALITY {
   BAD = 1,
   NORMAL = 2,
   GOOD = 3,
@@ -17,7 +34,7 @@ enum PHOTO_QUALITY {
   NOT_APPLICABLE = -2,
 }
 
-enum INTERVAL {
+export enum INTERVAL {
   ONE_YEAR = 0,                    // 1年后复查
   SIX_MONTH = 1,                   // 6个月后复查
   FIX_TIEM = 3,                    // 定期复查
@@ -25,40 +42,40 @@ enum INTERVAL {
   DEFAULT = -1,                    // 默认/未完成计算
 }
 
-enum TRANSFER_MODE {
+export enum TRANSFER_MODE {
   NORMAL = 0,                      // 常规随诊
   NON_EMERGENCY = 1,               // 非紧急转诊
   EMERGENCY = 2,                   // 紧急转诊
 }
 
-enum TRANSFER_MODE_EXTEND {
+export enum TRANSFER_MODE_EXTEND {
   DEFAULT = -1,                  // 默认/未完成计算
   NONE = 0,                      // 常规随诊
   IN_HOSPITAL = 1,               // 院内转诊
   OUT_OF_HOSPITAL = 2,           // 院外转诊
 }
 
-enum GENDER {
+export enum GENDER {
   MALE = 'M',
   FEMALE = 'F',
   OTHER = 'O',
 }
 
-enum RECORD_STATE {
+export enum RECORD_STATE {
   CREATED = 0,                      // 未阅片
   CALCING = 1,                      // 计算中
   REVIEWED = 2,                     // 已阅片
   PUSHED = 3,                       // 已推送
 }
 
-enum ROLE {
+export enum ROLE {
   DR = 'doctor',
   ORG_AD = 'org_admin',
   SYS_AD = 'sys_admin',
   SUP_AD = 'super_admin',
 }
 
-enum OPERATION_PERMISSIONS {
+export enum OPERATION_PERMISSIONS {
   ADMIN = 'admin',                    // 管理权限
   PATIENT_AD = 'patient_admin',       // 患者管理权限
   REVIEWED_RD = 'post_exam',          // 阅片权限
@@ -67,48 +84,51 @@ enum OPERATION_PERMISSIONS {
   AUDIT_TRANSFER = 'review_transfer'  // 转诊审核权限
 }
 
-enum MODULE_PERMISSIONS {
+export enum MODULE_PERMISSIONS {
   HISTORY_INFO = 'history_info',        // 病史信息模块
   QUALITY_CONTROL = 'quality_control',  // 眼片质量控制
   R_TRANSFER_MODE = 'recom_transfer',   // 推荐转诊模式
   R_REVISIT_INTERVAL = 'recom_reexam',  // 推荐复查时间间隔计算
   COMMENT = 'comment',                  // 注释? TODO: 目前未使用? 
   ENA_MEASURE = 'isMeasureEnable',      // 图像分析辅助线,比值线
-  EXP_REPORT = 'report_preview',        // 到处报告
+  EXP_REPORT = 'report_preview',        // 导处报告
+  MARKS = 'markers',                    // 遮罩层
+  LESION = 'lesion',                  // 图像所见疾病列表配置
+  DISEASE = 'disease',                  // 疾病分析列表配置
 }
 
-enum MEASURE_LINES {
+export enum MEASURE_LINES {
   MACULA = 'macula_line',               // 黄斑辅助线
   DISK = 'disk_line',                   // 视盘辅助线
   CUP_DISK = 'cup_disk_mask',           // 杯盘分割
   ART = 'art_mask',                     // 动静脉mask
-  LESSION = 'lesion_mask',              // 病灶检测mask
+  LESION = 'lesion_mask',              // 病灶检测mask
 }
 
-enum MARKERS {                          // TODO: on use? removed?
+export enum MARKERS {                          // TODO: on use? removed?
   MARKERS_DISPLAY = 'markers_display',
   MODEL_DETECTION = 'model_detection',
 }
 
-enum BOOLEAN_STATE {
+export enum BOOLEAN_STATE {
   TRUE = 1,
   FALSE = 0,
 }
 
-enum CHECKBOX_MODE {
+export enum CHECKBOX_MODE {
   NONE = 0,                             // 无
   SINGLE = 1,                           // 单选
   MULTI = 2,                            // 多选
 }
 
-enum AREA {
+export enum AREA {
   NONE = 0,                             // 无
   VASCULAR_LESION = 1,                  // 视网膜病变
-  RETINAL_LESSION = 2,                  // 血管性病变
+  RETINAL_LESION = 2,                  // 血管性病变
   OPTIC_NEUROPATHY = 3,                 // 视神经病变
 }
 
-enum LESSIONS {
+export enum LESIONS {
   MA = 'ma',                            // 微血管瘤
   HMA = 'hma',                          // 视网膜内出血
   HE = 'he',                            // 硬性渗出,
@@ -137,7 +157,7 @@ enum LESSIONS {
   CA = 'ca',                            // 脉络膜视网膜萎缩,
 }
 
-enum DISEASES {
+export enum DISEASES {
   DR = 'DR',                            // 糖网,
   CSME = 'CSME',                        // 糖尿病黄斑水肿,
   AMD = 'amd',                          // 年龄相关性黄斑变性,

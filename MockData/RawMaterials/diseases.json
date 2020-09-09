@@ -1,0 +1,157 @@
+[{
+  "id": "dis-00001",
+  "key": "DR",
+  "checkbox": 1,
+  "parent": "",
+  "index": 1
+}, {
+  "id": "dis-00002",
+  "key": "CSME",
+  "checkbox": 1,
+  "parent": "",
+  "index": 2
+}, {
+  "id": "dis-00003",
+  "key": "amd",
+  "checkbox": 1,
+  "parent": "",
+  "index": 3
+}, {
+  "id": "dis-00004",
+  "key": "hr",
+  "checkbox": 0,
+  "parent": "",
+  "index": 4
+}, {
+  "id": "dis-00005",
+  "key": "pm",
+  "checkbox": 1,
+  "parent": "",
+  "index": 5
+}, {
+  "id": "dis-00006",
+  "key": "mo",
+  "checkbox": 0,
+  "parent": "",
+  "index": 6
+}, {
+  "id": "dis-00007",
+  "key": "ga",
+  "checkbox": 0,
+  "parent": "",
+  "index": 7
+}, {
+  "id": "dis-00008",
+  "key": "rvo",
+  "checkbox": 2,
+  "parent": "",
+  "index": 8
+}, {
+  "id": "dis-00009",
+  "key": "other",
+  "checkbox": 0,
+  "parent": "",
+  "index": 9
+}, {
+  "id": "dis-00010",
+  "key": "MLD_NPDR",
+  "checkbox": -1,
+  "parent": "DR",
+  "index": 1
+}, {
+  "id": "dis-00011",
+  "key": "MOD_NPDR",
+  "checkbox": -1,
+  "parent": "DR",
+  "index": 2
+}, {
+  "id": "dis-00012",
+  "key": "SV_NPDR",
+  "checkbox": -1,
+  "parent": "DR",
+  "index": 3
+}, {
+  "id": "dis-00013",
+  "key": "P",
+  "checkbox": -1,
+  "parent": "DR",
+  "index": 4
+}, {
+  "id": "dis-00014",
+  "key": "HE_1DD_AWAY",
+  "checkbox": -1,
+  "parent": "CSME",
+  "index": 1
+}, {
+  "id": "dis-00015",
+  "key": "HE_1DD_WI",
+  "checkbox": -1,
+  "parent": "CSME",
+  "index": 2
+}, {
+  "id": "dis-00016",
+  "key": "NN",
+  "checkbox": -1,
+  "parent": "amd",
+  "index": 1
+}, {
+  "id": "dis-00017",
+  "key": "AS",
+  "checkbox": -1,
+  "parent": "amd",
+  "index": 2
+}, {
+  "id": "dis-00018",
+  "key": "TF",
+  "checkbox": -1,
+  "parent": "pm",
+  "index": 1
+}, {
+  "id": "dis-00019",
+  "key": "MHA",
+  "checkbox": -1,
+  "parent": "pm",
+  "index": 2
+}, {
+  "id": "dis-00020",
+  "key": "MO_S",
+  "checkbox": -1,
+  "parent": "mo",
+  "index": 1
+}, {
+  "id": "dis-00021",
+  "key": "VO",
+  "checkbox": -1,
+  "parent": "mo",
+  "index": 2
+}, {
+  "id": "dis-00022",
+  "key": "OT",
+  "checkbox": -1,
+  "parent": "mo",
+  "index": 3
+}, {
+  "id": "dis-00023",
+  "key": "CRAO",
+  "checkbox": -1,
+  "parent": "rvo",
+  "index": 1
+}, {
+  "id": "dis-00024",
+  "key": "CRVO",
+  "checkbox": -1,
+  "parent": "rvo",
+  "index": 2
+}, {
+  "id": "dis-00025",
+  "key": "BRAO",
+  "checkbox": -1,
+  "parent": "rvo",
+  "index": 3
+}, {
+  "id": "dis-00026",
+  "key": "BRVO",
+  "checkbox": -1,
+  "parent": "rvo",
+  "index": 4
+}]

@@ -11,5 +11,23 @@
   "availables": [
     "morning",
     "afternoon"
+  ],
+  "manufacturers": [
+    "佳能",
+    "索尼",
+    "卡西欧",
+    "福伦达",
+    "欧普罗科技",
+    "建腾创达科技",
+    "Basler",
+    "D-MAX",
+    "Samsung",
+    "PiXORD"
+  ],
+  "fileTypes": [
+    "jpg",
+    "png",
+    "GIF",
+    "svg"
   ]
 }

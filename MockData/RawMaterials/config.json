@@ -2,7 +2,11 @@
   "patients": 100,
   "records": 85,
   "photos": 150,
+  "devices": 80,
+  "maxDevicesForOneOrg" : 25,
   "maxDrForOneOrg": 8,
   "maxOrgForOneOrg": 8,
-  "maxAdminCount": 3 
+  "maxAdminCount": 3,
+  "maxRecordsForOnePatient": 7,
+  "maxPhotosForOneRecord": 7
 }

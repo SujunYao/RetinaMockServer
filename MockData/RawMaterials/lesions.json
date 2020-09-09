@@ -1,0 +1,402 @@
+[
+  {
+    "id": "L-000001",
+    "key": "ma",
+    "desc": "微血管瘤",
+    "parent": "",
+    "checkbox": 0,
+    "index": 1
+  },
+  {
+    "id": "L-000002",
+    "key": "hma",
+    "desc": "视网膜内出血",
+    "parent": "",
+    "checkbox": 2,
+    "index": 2
+  },
+  {
+    "id": "L-000003",
+    "key": "he",
+    "desc": "硬性渗出",
+    "parent": "",
+    "checkbox": 1,
+    "index": 3
+  },
+  {
+    "id": "L-000004",
+    "key": "cw",
+    "desc": "棉絮斑",
+    "parent": "",
+    "checkbox": 0,
+    "index": 4
+  },
+  {
+    "id": "L-000005",
+    "key": "ds",
+    "desc": "玻璃膜疣",
+    "parent": "",
+    "checkbox": 0,
+    "index": 5
+  },
+  {
+    "id": "L-000006",
+    "key": "an",
+    "desc": "动静脉交叉压迹",
+    "parent": "",
+    "checkbox": 0,
+    "index": 6
+  },
+  {
+    "id": "L-000007",
+    "key": "taf",
+    "desc": "豹纹状眼底",
+    "parent": "",
+    "checkbox": 0,
+    "index": 7
+  },
+  {
+    "id": "L-000008",
+    "key": "nvfp",
+    "desc": "新生血管或增殖膜",
+    "parent": "",
+    "checkbox": 2,
+    "index": 8
+  },
+  {
+    "id": "L-000009",
+    "key": "pvh",
+    "desc": "视网膜前出血或玻璃体积血",
+    "parent": "",
+    "checkbox": 2,
+    "index": 9
+  },
+  {
+    "id": "L-000010",
+    "key": "ls",
+    "desc": "激光斑",
+    "parent": "",
+    "checkbox": 0,
+    "index": 10
+  },
+  {
+    "id": "L-000011",
+    "key": "IRMA",
+    "desc": "IRMA",
+    "parent": "",
+    "checkbox": 0,
+    "index": 11
+  },
+  {
+    "id": "L-000012",
+    "key": "vb",
+    "desc": "静脉串珠样改变",
+    "parent": "",
+    "checkbox": 0,
+    "index": 12
+  },
+  {
+    "id": "L-000013",
+    "key": "ode",
+    "desc": "视盘水肿",
+    "parent": "",
+    "checkbox": 0,
+    "index": 13
+  },
+  {
+    "id": "L-000014",
+    "key": "awo",
+    "desc": "血管反光增强",
+    "parent": "",
+    "checkbox": 2,
+    "index": 14
+  },
+  {
+    "id": "L-000015",
+    "key": "gea",
+    "desc": "地图样萎缩",
+    "parent": "",
+    "checkbox": 0,
+    "index": 15
+  },
+  {
+    "id": "L-000016",
+    "key": "sp",
+    "desc": "后巩膜葡萄肿",
+    "parent": "",
+    "checkbox": 0,
+    "index": 16
+  },
+  {
+    "id": "L-000017",
+    "key": "aavr",
+    "desc": "动静脉比异常",
+    "parent": "",
+    "checkbox": 1,
+    "index": 17
+  },
+  {
+    "id": "L-000018",
+    "key": "acdr",
+    "desc": "杯盘比异常",
+    "parent": "",
+    "checkbox": 2,
+    "index": 18
+  },
+  {
+    "id": "L-000019",
+    "key": "pd",
+    "desc": "色素改变",
+    "parent": "",
+    "checkbox": 2,
+    "index": 19
+  },
+  {
+    "id": "L-000020",
+    "key": "sh",
+    "desc": "视网膜下出血",
+    "parent": "",
+    "checkbox": 0,
+    "index": 20
+  },
+  {
+    "id": "L-000021",
+    "key": "seh",
+    "desc": "色素上皮下出血",
+    "parent": "",
+    "checkbox": 0,
+    "index": 21
+  },
+  {
+    "id": "L-000022",
+    "key": "rd",
+    "desc": "视网膜脱离",
+    "parent": "",
+    "checkbox": 1,
+    "index": 22
+  },
+  {
+    "id": "L-000023",
+    "key": "mc",
+    "desc": "近视弧形斑",
+    "parent": "",
+    "checkbox": 0,
+    "index": 23
+  },
+  {
+    "id": "L-000024",
+    "key": "fs",
+    "desc": "Fuch斑",
+    "parent": "",
+    "checkbox": 0,
+    "index": 24
+  },
+  {
+    "id": "L-000025",
+    "key": "lc",
+    "desc": "漆裂纹",
+    "parent": "",
+    "checkbox": 0,
+    "index": 25
+  },
+  {
+    "id": "L-000026",
+    "key": "ca",
+    "desc": "脉络膜视网膜萎缩",
+    "parent": "",
+    "checkbox": 1,
+    "index": 26
+  },
+  {
+    "id": "L-000027",
+    "key": "dh",
+    "desc": "点状",
+    "parent": "hma",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000028",
+    "key": "bh",
+    "desc": "片状",
+    "parent": "hma",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000029",
+    "key": "fh",
+    "desc": "火焰状",
+    "parent": "hma",
+    "checkbox": -1,
+    "index": 3
+  },
+  {
+    "id": "L-000030",
+    "key": "1DDFMC",
+    "desc": "距黄斑中心1DD以内",
+    "parent": "he",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000031",
+    "key": "BT1DD2DDFMC",
+    "desc": "距黄斑中心1~2DD之间",
+    "parent": "he",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000032",
+    "key": "2DDFMC",
+    "desc": "距黄斑中心2DD以上",
+    "parent": "he",
+    "checkbox": -1,
+    "index": 3
+  },
+  {
+    "id": "L-000033",
+    "key": "N",
+    "desc": "新生血管",
+    "parent": "nvfp",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000034",
+    "key": "FP",
+    "desc": "增殖膜",
+    "parent": "nvfp",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000035",
+    "key": "ph|sh|rh",
+    "desc": "视网膜前出血",
+    "parent": "pvh",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000036",
+    "key": "vh",
+    "desc": "玻璃体积血",
+    "parent": "pvh",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000037",
+    "key": "cw",
+    "desc": "铜丝样反光",
+    "parent": "awo",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000038",
+    "key": "sw",
+    "desc": "银丝样反光",
+    "parent": "awo",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000039",
+    "key": "mild",
+    "desc": "轻度异常",
+    "parent": "aavr",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000040",
+    "key": "highly",
+    "desc": "高度异常(超过1:2)",
+    "parent": "aavr",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000041",
+    "key": "vcd>0.6",
+    "desc": "垂直杯盘比 > 0.6",
+    "parent": "acdr",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000042",
+    "key": "nrwt",
+    "desc": "颞上/下侧盘沿窄于鼻侧",
+    "parent": "acdr",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000043",
+    "key": "dh",
+    "desc": "色素脱失",
+    "parent": "pd",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000044",
+    "key": "h",
+    "desc": "色素沉着",
+    "parent": "pd",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000045",
+    "key": "erd",
+    "desc": "渗出性视网膜脱离",
+    "parent": "rd",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000046",
+    "key": "rrd",
+    "desc": "孔源性视网膜脱离",
+    "parent": "rd",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000047",
+    "key": "trd",
+    "desc": "牵拉性视网膜脱离",
+    "parent": "rd",
+    "checkbox": -1,
+    "index": 3
+  },
+  {
+    "id": "L-000048",
+    "key": "dca",
+    "desc": "弥漫性视网膜脉络膜萎缩",
+    "parent": "ca",
+    "checkbox": -1,
+    "index": 1
+  },
+  {
+    "id": "L-000049",
+    "key": "pca",
+    "desc": "局灶性视网膜脉络膜萎缩",
+    "parent": "ca",
+    "checkbox": -1,
+    "index": 2
+  },
+  {
+    "id": "L-000050",
+    "key": "other",
+    "desc": "其他",
+    "parent": "",
+    "checkbox": -1,
+    "index": 27
+  }
+]

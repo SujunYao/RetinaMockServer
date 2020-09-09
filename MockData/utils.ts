@@ -11,3 +11,15 @@ export const guid = (len: number = 32): string => {
 }
 
 export const randomNum = (max: number, min: number = 0): number => parseInt((Math.random() * max + min).toString(), 10)
+
+export const addDays = (curDate: Date, days: number): Date => {
+    let res = curDate
+    res.setDate(res.getDate() + days);
+    return res;
+};
+
+export const reducingDays = (curDate: Date, days: number): Date => {
+    let res = curDate
+    res.setDate(res.getDate() - days);
+    return res;
+};

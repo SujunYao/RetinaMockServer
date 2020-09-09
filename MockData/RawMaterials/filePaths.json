@@ -1,0 +1,146 @@
+[
+  {
+    "big": "/Files/bigImg/8_L_0.jpeg",
+    "width": 500,
+    "height": 373,
+    "small": "/Files/bigImg/8_L_0_thumb.jpeg",
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 48025.6
+  },
+  {
+    "big": "/Files/bigImg/8_R_0.jpeg",
+    "small": "/Files/bigImg/8_R_0_thumb.jpeg",
+    "width": 2592,
+    "height": 1944,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 295936
+  },
+  {
+    "big": "/Files/ZZ10001010/0.jpg",
+    "small": "/Files/ZZ10001010/0-thumb.jpg",
+    "width": 1024,
+    "height": 678,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 64409.6
+  },
+  {
+    "big": "/Files/ZZ10001010/1.jpg",
+    "small": "/Files/ZZ10001010/1-thumb.jpg",
+    "width": 1024,
+    "height": 678,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 65331.2
+  },
+  {
+    "big": "/Files/ZZ10001010/2.jpg",
+    "small": "/Files/ZZ10001010/2-thumb.jpg",
+    "width": 1024,
+    "height": 678,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 63385.6
+  },
+  {
+    "big": "/Files/ZZ10001010/3.jpg",
+    "small": "/Files/ZZ10001010/3-thumb.jpg",
+    "width": 1024,
+    "height": 678,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 62156.8
+  },
+  {
+    "big": "/Files/ZZ10001011/0.jpg",
+    "small": "/Files/ZZ10001011/0-thumb.jpg",
+    "width": 1024,
+    "height": 768,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 119808
+  },
+  {
+    "big": "/Files/ZZ10001011/1.jpg",
+    "small": "/Files/ZZ10001011/1-thumb.jpg",
+    "width": 1024,
+    "height": 768,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 107520
+  },
+  {
+    "big": "/Files/ZZ10001011/2.jpg",
+    "small": "/Files/ZZ10001011/2-thumb.jpg",
+    "width": 1024,
+    "height": 768,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 122880
+  },
+  {
+    "big": "/Files/ZZ10001011/3.jpg",
+    "small": "/Files/ZZ10001011/3-thumb.jpg",
+    "width": 1024,
+    "height": 768,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 102195.2
+  },
+  {
+    "big": "/Files/ZZ10001012/0.jpg",
+    "small": "/Files/ZZ10001012/0-thumb.jpg",
+    "width": 1024,
+    "height": 682,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 78950.4
+  },
+  {
+    "big": "/Files/ZZ10001012/1.jpg",
+    "small": "/Files/ZZ10001012/1-thumb.jpg",
+    "width": 1024,
+    "height": 682,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 69734.4
+  },
+  {
+    "big": "/Files/ZZ10001012/2.jpg",
+    "small": "/Files/ZZ10001012/2-thumb.jpg",
+    "width": 1024,
+    "height": 682,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 74547.2
+  },
+  {
+    "big": "/Files/ZZ10001012/3.jpg",
+    "small": "/Files/ZZ10001012/3-thumb.jpg",
+    "width": 1024,
+    "height": 682,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 75366.4
+  },
+  {
+    "big": "/Files/ZZ10001013/0.jpg",
+    "small": "/Files/ZZ10001013/0-thumb.jpg",
+    "width": 1024,
+    "height": 680,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size":52633.6
+  },
+  {
+    "big": "/Files/ZZ10001013/1.jpg",
+    "small": "/Files/ZZ10001013/1-thumb.jpg",
+    "width": 1024,
+    "height": 680,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 59084.8
+  },
+  {
+    "big": "/Files/ZZ10001013/2.jpg",
+    "small": "/Files/ZZ10001013/2-thumb.jpg",
+    "width": 1024,
+    "height": 680,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 56627.2
+  },
+  {
+    "big": "/Files/ZZ10001013/3.jpg",
+    "small": "/Files/ZZ10001013/3-thumb.jpg",
+    "width": 1024,
+    "height": 680,
+    "cup_disk_mask": "/Files/cup_disk_mask/exam635_635_R_0_cd.png",
+    "size": 57241.6
+  }
+]

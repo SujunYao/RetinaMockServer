@@ -1,8 +1,35 @@
-import './enum';
+// import './enum';
+import { LESIONS, DISEASES, CHECKBOX_MODE, BOOLEAN_STATE, AREA, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, OPERATION_PERMISSIONS, GENDER, ROLE, RECORD_STATE, MARK_SHAPE, MEASURES, PHOTO_QUALITY, INTERVAL, TRANSFER_MODE, TRANSFER_MODE_EXTEND,  } from './enum';
 /**
  * interfaces for the common template;
  * @Sujun
  * **/
+
+export interface COUNT {
+  [key: string]: number
+}
+export interface BOOLEAN {
+  [key: string]: boolean
+}
+
+export interface CACHE {
+  ORG_ADMIN_COUNT: COUNT,
+  ORG_EXTEND: BOOLEAN,
+}
+
+export interface HISTORY_TPL {
+  id: string,
+  priority: string,
+  valueType: string,
+  unit: string,
+  name: string,
+  parent: string,
+  group: string,
+  childs?: Array<HISTORY_TPL>
+  val?: string,
+  selChildID?: string,
+  template_id: number,
+}
 
 export interface HISTORY_INFO_TEMPLATE_SUBITEM_D {
   value: string | number,
@@ -51,8 +78,8 @@ export interface RATOR {
   }>
 }
 
-export interface CONFIG_LESSION {
-  id: LESSIONS,
+export interface CONFIG_LESION {
+  id: LESIONS | string,
   is_display: boolean,
   isSupport: boolean,
   checkbox: CHECKBOX_MODE,
@@ -64,17 +91,18 @@ export interface CONFIG_LESSION {
 }
 
 export interface CONFIG_DISEASE {
-  id: DISEASES,
+  id: DISEASES | string,
   is_display: boolean,
   isSupport: boolean,
   checkbox: CHECKBOX_MODE,
 }
 
 export interface CONFIG_MODULE_ITEM {
-  id: MODULE_PERMISSIONS | MEASURE_LINES | MARKERS,
-  is_display: boolean,
-  is_extended?: boolean,                                                  // 天津四特别扩展开关
-  detail?: Array<CONFIG_MODULE_ITEM | CONFIG_LESSION | CONFIG_DISEASE>,
+  id: MODULE_PERMISSIONS | MEASURE_LINES | MARKERS | string,
+  is_display?: boolean,
+  name?: MARKERS | string,
+  is_extended?: boolean,  // 天津四特别扩展开关
+  detail?: Array<CONFIG_MODULE_ITEM | CONFIG_LESION | CONFIG_DISEASE>,
 }
 
 export type CONFIG = {
@@ -84,6 +112,15 @@ export type CONFIG = {
 export type PERMISSION = {
   [key in OPERATION_PERMISSIONS]: boolean;
 };
+
+export interface PATH_INFO {
+  big: string,
+  small: string,
+  width: number,
+  height: number,
+  cup_disk_mask: string,
+  size: number
+}
 
 
 /**
@@ -108,7 +145,6 @@ export interface ORG_DATA {
   id: string,
   name: string,
   address: string,
-  admins: Array<string>;
   parentID: string,
   logo: string,
   logo_name: string,
@@ -116,11 +152,20 @@ export interface ORG_DATA {
   authorized: Array<string>,
 }
 
+export interface HISTORY_INFO_DATA {
+  [key: string]: Array<HISTORY_INFO_TEMPLATE>,
+  main: Array<HISTORY_INFO_TEMPLATE>,          // 主诉
+  exam: Array<HISTORY_INFO_TEMPLATE>,          // 其他检查结果(来自用户输入,非数据库)
+  history: Array<HISTORY_INFO_TEMPLATE>,       // 病史
+  exam_info: Array<HISTORY_INFO_TEMPLATE>,     // 检查备注(住院/门诊, 自费/医保)
+}
+
 export interface PATIENT_DATA {
   id: string,
   mobile: string,
   name: string,
   birthday: Date,
+  history: HISTORY_INFO_DATA,             // 病史信息
   ID_number: string,                      // 身份证号
   clinic_card_id: string,                 // 就诊卡号
   social_security_id: string,             // 社保卡号
@@ -146,18 +191,37 @@ export interface USER_DATA {
 export interface RECORD_DATA {
   id: string,
   pid: string,
-  examTime: string,
+  examTime: Date,
   diagnosis?: number,
-  photoIDs: Array<string>,
+  photoIDs: Array<number>,
   ai_disease?: Array<DIS_RESULT>,
   doctor_disease?: Array<DIS_RESULT>,
-  checkTime?: string,
+  checkTime?: Date | string,
   reviewed?: RECORD_STATE,
-  uploadTime?: string,
+  // uploadTime?: Date,
   uploaderID?: string,
   uploaderORGID?: string,
   viewerID?: string,
   viewerORGID?: string,
+}
+
+export interface DISEASE_DATA {
+  id: string,
+  key: string,
+  checkbox: CHECKBOX_MODE,
+  parent: string,
+  childs?: Array<DISEASE_DATA>,
+  index: number,
+}
+
+export interface LESION_DATA {
+  id: string,
+  key: string,
+  checkbox: CHECKBOX_MODE,
+  parent: string,
+  desc: string,
+  childs?: Array<LESION_DATA>,
+  index: number,
 }
 
 export interface PHOTO_DATA {
@@ -168,18 +232,20 @@ export interface PHOTO_DATA {
   contrast: number,
   cup_disk_mask: string,
   cup_disk_ratio: RESULT
-  diskBox: BOX,
+  diskBox: BOX | {},
   filesize: string,
   height: number,
   id: number,
   imageUrl: string,
-  maculaBox: BOX,
+  maculaBox: BOX | {},
   markers: Array<MARKER_RES>
   measureData: MEASUER_RES,
   px_ratio: number,
   side: number,
   thumbUrl: string,
+  lesions: LESION_RES,
   width: number,
+  recordID: string,
 }
 
 /**
@@ -217,10 +283,10 @@ export interface MARKER_RES {
 
 export type MEASUER_RES = {
   [key in MEASURES]: {
-    numerator: RATOR,
-    denominator: RATOR,
-    denominatorLabel: string,
-    numeratorLabel: string,
+    numerator?: RATOR | {},
+    denominator?: RATOR | {},
+    denominatorLabel?: string,
+    numeratorLabel?: string,
   };
 };
 
