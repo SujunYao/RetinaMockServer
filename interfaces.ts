@@ -1,5 +1,5 @@
 // import './enum';
-import { LESIONS, DISEASES, CHECKBOX_MODE, BOOLEAN_STATE, AREA, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, OPERATION_PERMISSIONS, GENDER, ROLE, RECORD_STATE, MARK_SHAPE, MEASURES, PHOTO_QUALITY, INTERVAL, TRANSFER_MODE, TRANSFER_MODE_EXTEND,  } from './enum';
+import { LESIONS, DISEASES, CHECKBOX_MODE, BOOLEAN_STATE, AREA, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, OPERATION_PERMISSIONS, GENDER, ROLE, RECORD_STATE, MARK_SHAPE, MEASURES, PHOTO_QUALITY, INTERVAL, TRANSFER_MODE, TRANSFER_MODE_EXTEND, APP_VERSION, } from './enum';
 /**
  * interfaces for the common template;
  * @Sujun
@@ -15,6 +15,7 @@ export interface BOOLEAN {
 export interface CACHE {
   ORG_ADMIN_COUNT: COUNT,
   ORG_EXTEND: BOOLEAN,
+  ORG_PATIENT_MAX: COUNT,
 }
 
 export interface HISTORY_TPL {
@@ -53,7 +54,7 @@ export interface RESULT {
 }
 
 export type DIS_RESULT = {
-  [key in DISEASES]: number | boolean | string
+  [key in DISEASES]?: number | boolean | string
 }
 
 export interface BOX {
@@ -146,6 +147,7 @@ export interface ORG_DATA {
   name: string,
   address: string,
   parentID: string,
+  authorizedOrgIDs: Array<string>,
   logo: string,
   logo_name: string,
   disclaimer: string,
@@ -171,6 +173,7 @@ export interface PATIENT_DATA {
   social_security_id: string,             // 社保卡号
   inpatient_id: string,                   // 住院号
   gender: GENDER,
+  createdBy: string,
   has_deleted: BOOLEAN_STATE,
   other_info: PATIENT_OT_INFO | string,   // TODO: whether used? remove?
   create_time: Date,                      // 创建时间
@@ -182,6 +185,7 @@ export interface USER_DATA {
   userName: string,
   name: string,
   password: string,
+  appMode?: APP_VERSION,
   role: Array<ROLE>,
   permission: PERMISSION,
   config: CONFIG,
@@ -194,11 +198,12 @@ export interface RECORD_DATA {
   examTime: Date,
   diagnosis?: number,
   photoIDs: Array<number>,
-  ai_disease?: Array<DIS_RESULT>,
-  doctor_disease?: Array<DIS_RESULT>,
+  disease?: { [key in DISEASES]?: RESULT | string },
+  // doctor_disease?: Array<DIS_RESULT>,
   checkTime?: Date | string,
   reviewed?: RECORD_STATE,
-  // uploadTime?: Date,
+  patientCreatedBy: string,
+  uploadTime?: Date,
   uploaderID?: string,
   uploaderORGID?: string,
   viewerID?: string,
@@ -245,6 +250,7 @@ export interface PHOTO_DATA {
   thumbUrl: string,
   lesions: LESION_RES,
   width: number,
+  quality: PHOTO_QUALITY,
   recordID: string,
 }
 
@@ -291,7 +297,7 @@ export type MEASUER_RES = {
 };
 
 export interface LESION_RES {
-  [key: string]: RESULT
+  [key: string]: RESULT | string
 }
 
 export interface PHOTO_RES {

@@ -23,3 +23,12 @@ export const reducingDays = (curDate: Date, days: number): Date => {
     res.setDate(res.getDate() - days);
     return res;
 };
+
+export const getAge = (birthday: Date, curDate: Date = new Date()): number => {
+    const diff = birthday.getTime() - curDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+}
+
+export const calcDisResult = ()=>{
+    
+};

@@ -1,4 +1,3 @@
-import '../enum';
 import {
   ORG_DATA,
   PATIENT_DATA,
@@ -24,13 +23,16 @@ import path from 'path';
 import {
   guid, randomNum, addDays, reducingDays,
 } from './utils';
-import { APP_VERSION, ROLE, OPERATION_PERMISSIONS, DISEASES, AREA, LESIONS, BOOLEAN_STATE, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, TPL_GROUPS, GENDER, CHECKBOX_MODE, SIDES, RECORD_STATE } from '../enum';
+import { APP_VERSION, ROLE, OPERATION_PERMISSIONS, DISEASES, AREA, LESIONS, BOOLEAN_STATE, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, TPL_GROUPS, GENDER, CHECKBOX_MODE, SIDES, RECORD_STATE, PHOTO_QUALITY } from '../enum';
 // import APP from '../app';
 
 const CACHE: CACHE = {
   ORG_ADMIN_COUNT: {},
+  ORG_PATIENT_MAX: {},
   ORG_EXTEND: {},
 };
+
+let patientsCount = 111;
 
 const patients: Array<PATIENT_DATA> = [];
 const orgs: Array<ORG_DATA> = [];
@@ -130,24 +132,40 @@ export const generalOrgs = () => {
   const address = JSON.parse(fs.readFileSync(MATERIAL.ADDRESS, 'utf8'));
   names.forEach((NAME: string) => {
     const hasParent: boolean = randomNum(2) < 1;
+    const authorizedOrgIDs: Array<string> = [];
     let parentID: string = '';
     if (hasParent) {
       const parent: ORG_DATA = orgs[randomNum(orgs.length - 1)];
       if (parent && !parent.parentID && orgs.filter((org: ORG_DATA) => org.parentID === parent.id).length < CONF.maxOrgForOneOrg) {
         parentID = parent.id;
       }
+      authorizedOrgIDs.push(parentID);
+      const parentChiilds: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.parentID === parent.id);
+      const maxAutorizedOrg: number = randomNum(parentChiilds.length);
+      const temp: Array<string> = [];
+      do {
+        const child: ORG_DATA = parentChiilds[randomNum(parentChiilds.length)];
+        if (child && temp.indexOf(child.id) < 0) {
+          authorizedOrgIDs.push(child.id);
+          temp.push(child.id);
+        }
+      } while (temp.length < (maxAutorizedOrg - 1))
     }
     const orgItem: ORG_DATA = {
       id: `ORG${guid()}`,
       name: NAME,
       address: address[randomNum(address.length)],
       parentID,
+      authorizedOrgIDs,
       logo: '',
       logo_name: '',
       disclaimer: '',
       authorized: [],
     };
     CACHE.ORG_ADMIN_COUNT[orgItem.id] = randomNum(CONF.maxAdminCount);
+    const temp = randomNum(patientsCount);
+    CACHE.ORG_PATIENT_MAX[orgItem.id] = temp;
+    patientsCount -= temp;
     CACHE.ORG_EXTEND[orgItem.id] = randomNum(2) < 1;
     orgs.push(orgItem);
   });
@@ -165,7 +183,7 @@ export const generalUser = () => {
     const org = orgs[randomNum(orgs.length)];
     const orgID: string = org.id;
     const setAsAdmin: boolean = randomNum(2) < 1;
-    const appMode: APP_VERSION = (randomNum(2) < 1 && APP_VERSION.ALL) || APP_VERSION.DR;
+    const appMode: APP_VERSION = index === 0 ? APP_VERSION.ALL : (randomNum(2) < 1 && APP_VERSION.ALL) || APP_VERSION.DR;
     const tgtOrgAdmins = users.filter((user: USER_DATA) =>
       user.orgID === orgID
       && ((user.role.indexOf(ROLE.SYS_AD) >= 0)
@@ -285,10 +303,11 @@ export const generalUser = () => {
 
     const user: USER_DATA = {
       id: `USER${guid()}`,
-      userName: name,
-      name: `test_${index}`,
+      userName: `test_${index}`,
+      name,
       password: 'test',
       role,
+      appMode,
       permission,
       config,
       orgID: orgID,
@@ -393,6 +412,16 @@ export const generalPatients = () => {
       } while (history[groupName].length < maxCount)
     });
 
+    let createdBy: string = '';
+    const DrArea: Array<USER_DATA> = users.filter((user: USER_DATA) => user.role.indexOf(ROLE.DR) >= 0);
+    do {
+      const tgtDr = DrArea[randomNum(DrArea.length)];
+      if (tgtDr && CACHE.ORG_PATIENT_MAX[tgtDr.orgID] > 0) {
+        createdBy = tgtDr.id;
+        CACHE.ORG_PATIENT_MAX[tgtDr.orgID]--;
+      }
+    } while (!createdBy);
+
     patients.push({
       id: `PTS${guid(18)}`,
       mobile: randomNum(18999999999, 13400000000).toString(),
@@ -406,6 +435,7 @@ export const generalPatients = () => {
       has_deleted: (randomNum(2) < 1 && BOOLEAN_STATE.TRUE) || BOOLEAN_STATE.FALSE,
       other_info: '',
       history,
+      createdBy,
       create_time: createDate,
       update_time: udpateDate,
     });
@@ -417,7 +447,7 @@ export const generalPatients = () => {
   });
 };
 
-const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDoctor: boolean): RESULT => {
+const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDoctor: boolean): RESULT | string => {
   const res: RESULT = { AI: '', doctor: '' };
   const tgt: LESION_DATA | DISEASE_DATA = LESIONS_OBJ[key] || DISEASES_OBJ[key];
   if (setAI) {
@@ -439,7 +469,7 @@ const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDocto
             }
           } while (selIDs.length < selMaxCount)
         }
-        res.AI = (isAIFalse && false) || selVals.sort((a: number, b: number) => a - b).join('');
+        res.AI = (isAIFalse && false) || selVals.sort((a: number, b: number) => a - b).join('') || false;
         break;
       case CHECKBOX_MODE.SINGLE:
         if (tgt.childs && tgt.childs.length > 0) {
@@ -482,15 +512,16 @@ const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDocto
         break;
     }
   }
-  return res;
+  return key === DISEASES.OT && ' ' || res;
 };
 
 const insertPhotos = (recordID: string, state: RECORD_STATE): Array<number> => {
   const maxPhotos = randomNum(CONF.maxPhotosForOneRecord, 1);
   const tgtFile = PATHS[randomNum(PATHS.length)];
   const tgtPhotoIDs: Array<number> = [];
+  const qualities = [PHOTO_QUALITY.BAD, PHOTO_QUALITY.GOOD, PHOTO_QUALITY.NORMAL, PHOTO_QUALITY.NOT_APPLICABLE, PHOTO_QUALITY.NO_CALC]
   for (let i = 0; i < maxPhotos; i++) {
-    const lesions: { [key: string]: RESULT } = {};
+    const lesions: { [key: string]: RESULT | string } = {};
     Object.values(LESIONS).forEach((LES: string) => {
       lesions[LES] = fitResultVal(LES, state !== RECORD_STATE.CALCING, (state === RECORD_STATE.PUSHED || state === RECORD_STATE.REVIEWED));
     })
@@ -530,6 +561,7 @@ const insertPhotos = (recordID: string, state: RECORD_STATE): Array<number> => {
       thumbUrl: tgtFile.small,
       width: tgtFile.width,
       recordID,
+      quality: qualities[randomNum(qualities.length)]
     };
     switch (state) {
       case RECORD_STATE.CREATED:
@@ -596,6 +628,11 @@ export const generalRecords = () => {
     let viewerID = '';
     const recordID = `REC${guid(18)}`;
     const tgtRecordPhotoIDs = insertPhotos(recordID, tgtState);
+
+    const [{ orgID: tgtOrgID }]: Array<USER_DATA> = users.filter((user: USER_DATA) => user.id === tgtPatient.createdBy);
+    const [tgtOrgInfo]: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.id === tgtOrgID);
+    const DrArea: Array<USER_DATA> = users.filter((user: USER_DATA) => tgtOrgInfo.authorizedOrgIDs.indexOf(user.orgID) >= 0 || user.orgID === tgtOrgID);
+
     switch (tgtState) {
       case RECORD_STATE.REVIEWED:
       case RECORD_STATE.PUSHED:
@@ -603,20 +640,28 @@ export const generalRecords = () => {
         if (checkTime > new Date()) {
           checkTime = reducingDays(new Date(), randomNum(5, 1));
         }
-        viewerID = users[randomNum(users.length)].id
+        viewerID = DrArea[randomNum(DrArea.length)].id
         break;
       default:
         break;
     }
+    const disease: { [key in DISEASES]?: RESULT | string } = {};
+    Object.values(DISEASES).forEach((DIS: DISEASES) => {
+      disease[DIS] = fitResultVal(DIS, tgtState !== RECORD_STATE.CALCING, (tgtState === RECORD_STATE.PUSHED || tgtState === RECORD_STATE.REVIEWED));
+    });
 
     records.push({
       id: recordID,
       pid: tgtPatient.id,
       examTime,
+      disease,
+      // ai_disease,
+      // doctor_disease,
       photoIDs: tgtRecordPhotoIDs,
       checkTime,
       reviewed: tgtState,
-      uploaderID: users[randomNum(users.length)].id,
+      patientCreatedBy: tgtPatient.createdBy,
+      uploaderID: randomNum(2) < 1 && tgtPatient.createdBy || DrArea[randomNum(DrArea.length)].id,
       viewerID,
     });
   }

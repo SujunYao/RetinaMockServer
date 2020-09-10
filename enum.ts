@@ -3,6 +3,14 @@ export enum APP_VERSION {
   DR = 'dr',
 }
 
+export enum LOGIN_STATE {
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  TOKEN_EXPRIED = 'TOKEN_EXPIRED',
+}
+
+
+export const AUTHOR_PREFIX = 'Basic ';
 export enum SIDES {
   LEFT = 1,
   RIGHT = 0,

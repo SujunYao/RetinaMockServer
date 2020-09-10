@@ -8,5 +8,7 @@
   "maxOrgForOneOrg": 8,
   "maxAdminCount": 3,
   "maxRecordsForOnePatient": 7,
-  "maxPhotosForOneRecord": 7
+  "maxPhotosForOneRecord": 7,
+  "maxPatientCreatedByOneDoctor": 5,
+  "maxPatientForOneOrg": 11
 }
