@@ -8,7 +8,7 @@ import { LOGIN_STATE, AUTHOR_PREFIX } from '../enum';
 interface TOKEN {
   createDate: Date,
   userID: string,
-  token: string,
+  token: string, 
 }
 
 const SYS = path.join(__dirname, '../MockData/sys.json');
@@ -29,7 +29,7 @@ export default {
           }
         }
       } else {
-        const cTime = sys.TOKENS[userID].createDate.getTime();
+        const cTime = new Date(sys.TOKENS[userID].createDate).getTime();
         const curTime = curDate.getTime();
         if ((curTime - cTime) / (1000 * 60 * 60) > outTime) {
           delete sys.TOKENS[userID];
@@ -48,7 +48,7 @@ export default {
     const curDate = new Date();
     const [userID] = Object.keys(sys.TOKENS).filter((key: string) => key === tokenKey);
     if (userID) {
-      const cTime = sys.TOKENS[userID].createDate.getTime();
+      const cTime = new Date(sys.TOKENS[userID].createDate).getTime();
       const curTime = curDate.getTime();
       if ((curTime - cTime) / (1000 * 60 * 60) > outTime) {
         delete sys.TOKENS[userID];
@@ -66,7 +66,7 @@ export default {
     const userToken = sys.TOKENS[userID];
     const curDate: Date = new Date();
     if (userToken) {
-      const cTime = userToken.createDate.getTime();
+      const cTime = new Date(userToken.createDate).getTime();
       const curTime = curDate.getTime();
       if ((curTime - cTime) / (1000 * 60 * 60) > outTime) {
         return {

@@ -31,26 +31,29 @@ export default {
       if (userInfo) {
         const [org]: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.id === userInfo.orgID);
         tokenInfo = (userInfo.token && sysData.TOKENS[userInfo.id]) || sys.getToken(userInfo.id);
-        token = tokenInfo.token;
+        console.log(tokenInfo);
+        token = tokenInfo?.token;
         org_name = org?.name || '';
       }
 
       const AI_type = userInfo.appMode;
       delete userInfo.appMode;
+      res.statusCode = tokenInfo ? 200 : 403;
       // delete userInfo.orgID;
-      console.log(sysData);
-      fs.writeFile(SYS, JSON.stringify({
-        TOKENS: {
-          ...sysData.TOKENS,
-          [userInfo.id]: tokenInfo
-        }, LANG: lang, LOGIN_USER: userInfo.id || ''
-      }), (err) => {
-        if (err) return console.error(err);
-        return console.info(`Has generated mock data into ${SYS}`);
-      });
+      // console.log(sysData);
+      // fs.writeFile(SYS, JSON.stringify({
+      //   TOKENS: {
+      //     ...sysData.TOKENS,
+      //     [userInfo.id]: tokenInfo
+      //   }, LANG: lang, LOGIN_USER: userInfo.id || '',
+      // }), (err) => {
+      //   if (err) return console.error(err);
+      //   return console.info(`Has generated mock data into ${SYS}`);
+      // });
       res.json({
         ...userInfo || {},
         org_name,
+        is_actived: true,
         AI_type,
         product_info: (userInfo && productInfo) || [],
         token,

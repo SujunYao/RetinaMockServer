@@ -447,3 +447,16 @@ export interface RECORDS_RES {
   viewer_sites: Array<ORG_RES>,
   viewer_doctors: Array<USER_BRIEFLY_RES>,
 }
+
+export interface VIEWER_BRIEFLY_RES {
+  name: string,
+  org_name: string,
+  user_id: string,
+  username: string,
+}
+
+export interface ORG_BRIEFLY_RES {
+  name: string,
+  id: string,
+  admin?: string, // TODO? whether need?
+}

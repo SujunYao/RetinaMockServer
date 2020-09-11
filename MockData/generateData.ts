@@ -139,17 +139,17 @@ export const generalOrgs = () => {
       if (parent && !parent.parentID && orgs.filter((org: ORG_DATA) => org.parentID === parent.id).length < CONF.maxOrgForOneOrg) {
         parentID = parent.id;
       }
-      authorizedOrgIDs.push(parentID);
+      if (parentID) { authorizedOrgIDs.push(parentID); }
       const parentChiilds: Array<ORG_DATA> = orgs.filter((org: ORG_DATA) => org.parentID === parent.id);
       const maxAutorizedOrg: number = randomNum(parentChiilds.length);
-      const temp: Array<string> = [];
+      const tempArr: Array<string> = [];
       do {
         const child: ORG_DATA = parentChiilds[randomNum(parentChiilds.length)];
-        if (child && temp.indexOf(child.id) < 0) {
+        if (child && tempArr.indexOf(child.id) < 0) {
           authorizedOrgIDs.push(child.id);
-          temp.push(child.id);
+          tempArr.push(child.id);
         }
-      } while (temp.length < (maxAutorizedOrg - 1))
+      } while (tempArr.length < (maxAutorizedOrg - 1))
     }
     const orgItem: ORG_DATA = {
       id: `ORG${guid()}`,
