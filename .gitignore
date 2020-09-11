@@ -2,9 +2,7 @@
 
 # dependencies
 /node_modules
-/.pnp
-/MockData/.json
-.pnp.js
+
 
 # testing
 /coverage
@@ -26,3 +24,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+MockData/devices.json
+MockData/orgs.json
+MockData/users.json
+MockData/patients.json
+MockData/photos.json
+MockData/records.json
