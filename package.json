@@ -24,7 +24,9 @@
     "typescript": "^4.0.2"
   },
   "nodemonConfig": {
-    "ignore": ["MockData/*.json"]
+    "ignore": [
+      "MockData/*.json"
+    ]
   },
   "dependencies": {}
 }
