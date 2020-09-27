@@ -96,6 +96,7 @@ export default {
     const [val1, val2]: Array<string> = Buffer.from(author?.split(AUTHOR_PREFIX).slice(-1).pop() || '', 'base64').toString().split(':')
     let userinfo: USER_DATA;
     const [tgtToekn]: Array<TOKEN> = Object.values(sys.TOKENS).filter((token: TOKEN) => token.token === val1);
+    console.log(tgtToekn);
     if (tgtToekn) {
       [userinfo] = users.filter((user: USER_DATA) => user.id === tgtToekn.userID);
     } else {

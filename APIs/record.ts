@@ -218,4 +218,6 @@ export default {
   getRecord: (req: Request, res: Response) => {
 
   },
-}
+};
+
+// const Request: <T>(method: number) => Promise<T> = async (method)=>{};

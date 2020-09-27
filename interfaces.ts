@@ -186,7 +186,7 @@ export interface USER_DATA {
   name: string,
   password: string,
   appMode?: APP_VERSION,
-  role: Array<ROLE>,
+  role: ROLE,
   permission: PERMISSION,
   config: CONFIG,
   orgID: string,
@@ -201,6 +201,7 @@ export interface RECORD_DATA {
   disease?: { [key in DISEASES]?: RESULT | string },
   // doctor_disease?: Array<DIS_RESULT>,
   checkTime?: Date | string,
+  push: boolean,
   reviewed?: RECORD_STATE,
   patientCreatedBy: string,
   uploadTime?: Date,
@@ -407,19 +408,20 @@ export interface USER_RES {
   id: string,
   name: string,
   username: string,
-  role: Array<ROLE>,
+  role: ROLE,
+  is_actived: boolean,
   permission: PERMISSION,
   AI_type: string,
-  org: {
+  org: string | {
     id: string,
     name: string,
   },
   product_info: Array<{ [key: string]: string }>,
   token: string,
-  doctor_url: string,
+  // doctor_url: string,
   target_server_host: string,
-  org_name?: string,
   config: CONFIG,
+  transfer_config?: Array<{}>
 }
 
 export interface ORG_RES {
@@ -427,6 +429,25 @@ export interface ORG_RES {
   name: string,
   admin: string,                        // TODO: whether has more than 2 admin? confirm with XIAOYAN
 }
+
+export interface ORG_TREE_NDOE_ITEM_RES {
+  id: string,
+  name: string,
+}
+
+export interface ORG_TREE_ROOT_ITEM_RES {
+  id: string,
+  name: string,
+  org_list: Array<ORG_TREE_NDOE_ITEM_RES>
+}
+
+export interface ORG_TREE_RES {
+  name: string,
+  org_name: string,
+  role: string,
+  data: Array<ORG_TREE_ROOT_ITEM_RES>
+}
+
 export interface USER_BRIEFLY_RES {
   user_id: string,
   name: string,

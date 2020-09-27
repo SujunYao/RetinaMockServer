@@ -176,3 +176,8 @@ export enum DISEASES {
   RVO = 'rvo',                          // 视网膜血管阻塞,
   OT = 'other',                         // 其他,
 }
+
+export enum TARGERT_SERVER_HOSTS {
+  PRODUCT = 'http://localhost:3000',
+  SYS = 'http://localhost:4000',
+}

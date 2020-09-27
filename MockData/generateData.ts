@@ -179,7 +179,7 @@ export const generalOrgs = () => {
 export const generalUser = () => {
   const names = JSON.parse(fs.readFileSync(MATERIAL.DR_NAMES, 'utf8'));
   names.forEach((name: string, index: number) => {
-    const role = [];
+    let role;
     const org = orgs[randomNum(orgs.length)];
     const orgID: string = org.id;
     const setAsAdmin: boolean = randomNum(2) < 1;
@@ -189,19 +189,19 @@ export const generalUser = () => {
       && ((user.role.indexOf(ROLE.SYS_AD) >= 0)
         || (user.role.indexOf(ROLE.ORG_AD) >= 0)));
     if (index === 0) {
-      role.push(ROLE.SUP_AD);
+      role = ROLE.SUP_AD;
     } else if (setAsAdmin && tgtOrgAdmins.length < CACHE.ORG_ADMIN_COUNT[orgID]) {
-      role.push((orgs.filter((orgItem: ORG_DATA) => orgItem.parentID === org.id).length > 0 && ROLE.SYS_AD) || ROLE.ORG_AD);
+      role = (orgs.filter((orgItem: ORG_DATA) => orgItem.parentID === org.id).length > 0 && ROLE.SYS_AD) || ROLE.ORG_AD;
     } else {
-      role.push(ROLE.DR);
+      role = ROLE.DR;
     }
     const permission = {
       [OPERATION_PERMISSIONS.ADMIN]: index === 0 ? true : randomNum(2) < 1,
-      [OPERATION_PERMISSIONS.AUDIT_TRANSFER]: index === 0 ? true : randomNum(2) < 1,
-      [OPERATION_PERMISSIONS.PATIENT_AD]: index === 0 ? true : randomNum(2) < 1,
-      [OPERATION_PERMISSIONS.PUSH_RD]: index === 0 ? true : randomNum(2) < 1,
-      [OPERATION_PERMISSIONS.REVIEWED_RD]: index === 0 ? true : randomNum(2) < 1,
-      [OPERATION_PERMISSIONS.TRANSFER_RD]: index === 0 ? true : randomNum(2) < 1,
+      [OPERATION_PERMISSIONS.AUDIT_TRANSFER]: index === 0 ? false : randomNum(2) < 1,
+      [OPERATION_PERMISSIONS.PATIENT_AD]: index === 0 ? false : randomNum(2) < 1,
+      [OPERATION_PERMISSIONS.PUSH_RD]: index === 0 ? false : randomNum(2) < 1,
+      [OPERATION_PERMISSIONS.REVIEWED_RD]: index === 0 ? false : randomNum(2) < 1,
+      [OPERATION_PERMISSIONS.TRANSFER_RD]: index === 0 ? false : randomNum(2) < 1,
     };
     // let outsideDR, outsideCSME;
     const outsideDis: {
@@ -310,7 +310,7 @@ export const generalUser = () => {
       appMode,
       permission,
       config,
-      orgID: orgID,
+      orgID: role !== ROLE.SUP_AD && orgID || '',
     };
     users.push(user);
   });
@@ -655,6 +655,7 @@ export const generalRecords = () => {
       pid: tgtPatient.id,
       examTime,
       disease,
+      push: tgtState === RECORD_STATE.REVIEWED && randomNum(2) < 1 || false,
       // ai_disease,
       // doctor_disease,
       photoIDs: tgtRecordPhotoIDs,
