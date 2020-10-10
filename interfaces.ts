@@ -20,6 +20,7 @@ export interface CACHE {
 
 export interface HISTORY_TPL {
   id: string,
+  patientID: string,
   priority: string,
   valueType: string,
   unit: string,
@@ -80,7 +81,9 @@ export interface RATOR {
 }
 
 export interface CONFIG_LESION {
-  id: LESIONS | string,
+  id: string,
+  lessionID: LESIONS | string,
+  userID: string,
   is_display: boolean,
   isSupport: boolean,
   checkbox: CHECKBOX_MODE,
@@ -92,14 +95,16 @@ export interface CONFIG_LESION {
 }
 
 export interface CONFIG_DISEASE {
-  id: DISEASES | string,
+  id: string,
+  userID: string,
+  diseaseID: DISEASES | string,
   is_display: boolean,
   isSupport: boolean,
   checkbox: CHECKBOX_MODE,
 }
 
 export interface CONFIG_MODULE_ITEM {
-  id: MODULE_PERMISSIONS | MEASURE_LINES | MARKERS | string,
+  // id: MODULE_PERMISSIONS | MEASURE_LINES | MARKERS | string,
   is_display?: boolean,
   name?: MARKERS | string,
   is_extended?: boolean,  // 天津四特别扩展开关
@@ -167,7 +172,7 @@ export interface PATIENT_DATA {
   mobile: string,
   name: string,
   birthday: Date,
-  history: HISTORY_INFO_DATA,             // 病史信息
+  // history: HISTORY_INFO_DATA,             // 病史信息
   ID_number: string,                      // 身份证号
   clinic_card_id: string,                 // 就诊卡号
   social_security_id: string,             // 社保卡号
@@ -187,9 +192,41 @@ export interface USER_DATA {
   password: string,
   appMode?: APP_VERSION,
   role: ROLE,
-  permission: PERMISSION,
-  config: CONFIG,
   orgID: string,
+}
+
+export interface USER_DATA_RES {
+  id: string,
+  username: string,
+  name: string,
+  role: ROLE,
+  password: string,
+  AI_type: string,
+  is_actived: boolean,
+  org: string | {
+    id: string,
+    name: string,
+  },
+  token: string,
+  config: CONFIG | {},
+  permission: PERMISSION | {},
+  product_info: Array<{ [key: string]: string }>,
+  target_server_host: string,
+  // permission: PERMISSION,
+  // config: CONFIG,
+  // orgID: string,
+}
+
+export interface SYS_DATA {
+  LOGIN_USER_ID: string,
+  TOKENID: string,
+  LOGIN_TIME: Date,
+  LANG: string,
+}
+
+export interface SYS_DATA_RES {
+  userID: string,
+  token: string,
 }
 
 export interface RECORD_DATA {
@@ -197,7 +234,7 @@ export interface RECORD_DATA {
   pid: string,
   examTime: Date,
   diagnosis?: number,
-  photoIDs: Array<number>,
+  photoIDs: Array<string>,
   disease?: { [key in DISEASES]?: RESULT | string },
   // doctor_disease?: Array<DIS_RESULT>,
   checkTime?: Date | string,
@@ -233,17 +270,22 @@ export interface LESION_DATA {
 export interface PHOTO_DATA {
   ai_markers: []
   art_mask: string,
-  art_ratio: RESULT,
+  'art_ratio/AI': string | number | boolean,
+  'art_ratio/doctor': string | number | boolean,
+  // art_ratio: RESULT,
   brightness: number
   contrast: number,
   cup_disk_mask: string,
-  cup_disk_ratio: RESULT
-  diskBox: BOX | {},
+  'cup_disk_ratio/AI': string | number | boolean,
+  'cup_disk_ratio/doctor': string | number | boolean,
+  // cup_disk_ratio: RESULT
+  // diskBox: BOX | {},
   filesize: string,
   height: number,
-  id: number,
+  // id: number,
+  id: string,
   imageUrl: string,
-  maculaBox: BOX | {},
+  // maculaBox: BOX | {},
   markers: Array<MARKER_RES>
   measureData: MEASUER_RES,
   px_ratio: number,
@@ -410,7 +452,7 @@ export interface USER_RES {
   username: string,
   role: ROLE,
   is_actived: boolean,
-  permission: PERMISSION,
+  // permission: PERMISSION,
   AI_type: string,
   org: string | {
     id: string,
@@ -420,7 +462,7 @@ export interface USER_RES {
   token: string,
   // doctor_url: string,
   target_server_host: string,
-  config: CONFIG,
+  // config: CONFIG,
   transfer_config?: Array<{}>
 }
 

@@ -6,9 +6,10 @@ const USER_SYS_URL = 'http://localhost:4000';
 
 const APP = express();
 
-// LOGIN/USER
+// LOGIN/LOGOUT
 APP.post('/api/login', (req, res) => APIs.user.login(req, res));
 APP.post('/api/user', (req, res) => APIs.user.login(req, res, true));
+APP.post('/api/logout', (req, res) => APIs.user.logout(req, res));
 
 // COMMON APIS
 APP.get('/api/push_len', (req, res) => APIs.push.getPushLen(req, res));

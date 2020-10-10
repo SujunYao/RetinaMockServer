@@ -16,9 +16,11 @@ import {
   HISTORY_INFO_DATA,
   DISEASE_DATA,
   LESION_DATA,
+  PERMISSION,
 } from '../interfaces';
 import fs from 'fs';
 import path from 'path';
+import { format, writeToPath } from '@fast-csv/format';
 
 import {
   guid, randomNum, addDays, reducingDays,
@@ -38,6 +40,8 @@ const patients: Array<PATIENT_DATA> = [];
 const orgs: Array<ORG_DATA> = [];
 const records: Array<RECORD_DATA> = [];
 const photos: Array<PHOTO_DATA> = [];
+const diskBox: Array<{ [key: string]: any }> = [];
+const maculaBox: Array<{ [key: string]: any }> = [];
 const users: Array<USER_DATA> = [];
 const devices: Array<DEVICE_DATA> = [];
 
@@ -55,13 +59,23 @@ const MATERIAL = {
   PRODUCT_INFO: path.join(__dirname, './RawMaterials/productInfo.json'),
 };
 
-const PATINETS = path.join(__dirname, './patients.json');
-const RECORDS = path.join(__dirname, './records.json');
-const USERS = path.join(__dirname, './users.json');
-const ORGS = path.join(__dirname, './orgs.json');
-const PHOTOS = path.join(__dirname, './photos.json');
-const DEVICES = path.join(__dirname, './devices.json');
-const SYS = path.join(__dirname, './sys.json');
+const PATINETS = path.resolve(__dirname, 'patients.csv');
+const HISTORY = path.resolve(__dirname, 'history.csv');
+const RECORDS = path.resolve(__dirname, 'records.csv');
+const DISEASE = path.resolve(__dirname, 'disease.csv');
+const USERS = path.resolve(__dirname, 'users.csv');
+const USERCONFIG = path.resolve(__dirname, 'userConfig.csv');
+const PERMISSIONS = path.resolve(__dirname, 'permissions.csv');
+const DISCONFIG = path.resolve(__dirname, 'diseaseConfig.csv');
+const LESCONFIG = path.resolve(__dirname, 'lessionConfig.csv');
+const MEASURECONFIG = path.resolve(__dirname, 'measureConfig.csv');
+const MARKERCONFIG = path.resolve(__dirname, 'markerConfig.csv');
+const ORGS = path.resolve(__dirname, 'orgs.csv')
+const PHOTOS = path.resolve(__dirname, 'photos.csv');
+const DISKBOX = path.resolve(__dirname, 'diskbox.csv');
+const MACULABOX = path.resolve(__dirname, 'maculabox.csv');
+const DEVICES = path.resolve(__dirname, 'devices.csv');
+const SYS = path.resolve(__dirname, 'sys.csv');
 
 const CONF = JSON.parse(fs.readFileSync(MATERIAL.CONF, 'utf8'));
 const OTS = JSON.parse(fs.readFileSync(MATERIAL.OT, 'utf8'));
@@ -105,7 +119,7 @@ JSON.parse(fs.readFileSync(MATERIAL.DISEASES, 'utf8')).forEach((DIS: DISEASE_DAT
   }
 });
 
-const generateTPLValues = (TPL: HISTORY_TPL): HISTORY_TPL => {
+const generateTPLValues = (TPL: HISTORY_TPL, patientID: string): HISTORY_TPL => {
   let val: string = '';
   let selChildID: string = '';
   const setVal: boolean = randomNum(2) < 1;
@@ -124,19 +138,20 @@ const generateTPLValues = (TPL: HISTORY_TPL): HISTORY_TPL => {
   if (TPL.childs && TPL.childs.length > 0 && selOne) {
     selChildID = TPL.childs[randomNum(TPL.childs.length)].id;
   }
-  return { ...TPL, val, selChildID, template_id: parseInt(TPL.id) };
+  return { ...TPL, patientID, id: `HISTORY_${guid()}`, val, selChildID, template_id: parseInt(TPL.id) };
 };
 
 export const generalOrgs = () => {
   const names = JSON.parse(fs.readFileSync(MATERIAL.ORG_NAMES, 'utf8'));
   const address = JSON.parse(fs.readFileSync(MATERIAL.ADDRESS, 'utf8'));
-  names.forEach((NAME: string) => {
-    const hasParent: boolean = randomNum(2) < 1;
+  names.forEach((NAME: string, index: number) => {
+    const hasParent: boolean = randomNum(3) < 1;
     const authorizedOrgIDs: Array<string> = [];
     let parentID: string = '';
     if (hasParent) {
-      const parent: ORG_DATA = orgs[randomNum(orgs.length - 1)];
-      if (parent && !parent.parentID && orgs.filter((org: ORG_DATA) => org.parentID === parent.id).length < CONF.maxOrgForOneOrg) {
+      const syss = orgs.filter(org => !org.parentID);
+      const parent: ORG_DATA = syss[randomNum(syss.length - 1)];
+      if (parent && syss.filter((org: ORG_DATA) => org.parentID === parent.id).length < CONF.maxOrgForOneOrg) {
         parentID = parent.id;
       }
       if (parentID) { authorizedOrgIDs.push(parentID); }
@@ -152,7 +167,7 @@ export const generalOrgs = () => {
       } while (tempArr.length < (maxAutorizedOrg - 1))
     }
     const orgItem: ORG_DATA = {
-      id: `ORG${guid()}`,
+      id: `ORG_${guid()}`,
       name: NAME,
       address: address[randomNum(address.length)],
       parentID,
@@ -163,23 +178,27 @@ export const generalOrgs = () => {
       authorized: [],
     };
     CACHE.ORG_ADMIN_COUNT[orgItem.id] = randomNum(CONF.maxAdminCount);
-    const temp = randomNum(patientsCount);
+    const temp = randomNum(20 || patientsCount, patientsCount / names.length);
     CACHE.ORG_PATIENT_MAX[orgItem.id] = temp;
-    patientsCount -= temp;
     CACHE.ORG_EXTEND[orgItem.id] = randomNum(2) < 1;
     orgs.push(orgItem);
   });
-
-  fs.writeFile(ORGS, JSON.stringify(orgs), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${ORGS}`);
-  });
+  writeToPath(ORGS, orgs, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing Orgs.csv'));
 };
 
 export const generalUser = () => {
   const names = JSON.parse(fs.readFileSync(MATERIAL.DR_NAMES, 'utf8'));
+  const configs: Array<{ [key: string]: any }> = [];
+  const permissions: Array<{ userID: string }> = [];
+  const measureConfig: Array<{ [key: string]: any }> = []; // MEASURE_LINES
+  const markerConfig: Array<{ [key: string]: any }> = [];
+  const diseaseConfig: Array<CONFIG_DISEASE> = [];
+  const lesionConfig: Array<CONFIG_LESION> = [];
   names.forEach((name: string, index: number) => {
     let role;
+    const userID = `USER_${guid()}`;
     const org = orgs[randomNum(orgs.length)];
     const orgID: string = org.id;
     const setAsAdmin: boolean = randomNum(2) < 1;
@@ -196,6 +215,7 @@ export const generalUser = () => {
       role = ROLE.DR;
     }
     const permission = {
+      userID,
       [OPERATION_PERMISSIONS.ADMIN]: index === 0 ? true : randomNum(2) < 1,
       [OPERATION_PERMISSIONS.AUDIT_TRANSFER]: index === 0 ? false : randomNum(2) < 1,
       [OPERATION_PERMISSIONS.PATIENT_AD]: index === 0 ? false : randomNum(2) < 1,
@@ -203,6 +223,8 @@ export const generalUser = () => {
       [OPERATION_PERMISSIONS.REVIEWED_RD]: index === 0 ? false : randomNum(2) < 1,
       [OPERATION_PERMISSIONS.TRANSFER_RD]: index === 0 ? false : randomNum(2) < 1,
     };
+    permissions.push(permission);
+
     // let outsideDR, outsideCSME;
     const outsideDis: {
       [key: string]: {
@@ -211,8 +233,6 @@ export const generalUser = () => {
         isSupport: boolean,
       }
     } = {};
-    const DIS: Array<CONFIG_DISEASE> = [];
-    const LES: Array<CONFIG_LESION> = [];
     const areas = [AREA.NONE, AREA.OPTIC_NEUROPATHY, AREA.RETINAL_LESION, AREA.VASCULAR_LESION];
     // generate disease config
     Object.values(DISEASES).forEach((dis: string) => {
@@ -223,8 +243,10 @@ export const generalUser = () => {
           isSupport: randomNum(2) < 1
         };
       } else {
-        DIS.push({
-          id: dis,
+        diseaseConfig.push({
+          id: `DISCONFIG_${guid()}`,
+          userID,
+          diseaseID: dis,
           is_display: randomNum(2) < 1,
           isSupport: randomNum(2) < 1,
           checkbox: DISEASES_OBJ[dis]?.checkbox || 0,
@@ -233,8 +255,10 @@ export const generalUser = () => {
     });
     // generate lesion config
     Object.values(LESIONS).forEach((lesion: string) => {
-      LES.push({
-        id: lesion,
+      lesionConfig.push({
+        id: `LESCONFIG_${guid()}`,
+        lessionID: lesion,
+        userID,
         is_display: randomNum(2) < 1,
         isSupport: randomNum(2) < 1,
         checkbox: LESIONS_OBJ[lesion]?.checkbox || 0,
@@ -245,80 +269,62 @@ export const generalUser = () => {
         pm_related: (randomNum(2) < 1 && BOOLEAN_STATE.TRUE) || BOOLEAN_STATE.FALSE,
       });
     });
-
-    const config: CONFIG = {
-      [MODULE_PERMISSIONS.COMMENT]: {
-        id: MODULE_PERMISSIONS.COMMENT,
-        is_display: randomNum(2) < 1,
-      },
-      [MODULE_PERMISSIONS.HISTORY_INFO]: {
-        id: MODULE_PERMISSIONS.HISTORY_INFO,
-        is_display: randomNum(2) < 1,
-      },
-      [MODULE_PERMISSIONS.QUALITY_CONTROL]: {
-        id: MODULE_PERMISSIONS.QUALITY_CONTROL,
-        is_display: randomNum(2) < 1,
-      },
-      [MODULE_PERMISSIONS.R_TRANSFER_MODE]: {
-        id: MODULE_PERMISSIONS.R_TRANSFER_MODE,
-        is_display: randomNum(2) < 1,
-        is_extended: CACHE.ORG_EXTEND[org.id]
-      },
-      [MODULE_PERMISSIONS.R_REVISIT_INTERVAL]: {
-        id: MODULE_PERMISSIONS.R_REVISIT_INTERVAL,
-        is_display: randomNum(2) < 1,
-      },
-      [MODULE_PERMISSIONS.ENA_MEASURE]: {
-        id: MODULE_PERMISSIONS.ENA_MEASURE,
-        is_display: randomNum(2) < 1,
-        detail: Object.values(MEASURE_LINES).map((line: string): CONFIG_MODULE_ITEM => ({
-          id: line,
-          is_display: randomNum(2) < 1,
-        })),
-      },
-      [MODULE_PERMISSIONS.EXP_REPORT]: {
-        id: MODULE_PERMISSIONS.ENA_MEASURE,
-        is_display: randomNum(2) < 1,
-      },
-      [MODULE_PERMISSIONS.MARKS]: {
-        id: MODULE_PERMISSIONS.MARKS,
-        is_display: randomNum(2) < 1,
-        detail: Object.values(MARKERS).map((name: string) => ({
-          id: name,
-          name,
-          type: 'marker'
-        }))
-      },
-      [MODULE_PERMISSIONS.DISEASE]: {
-        id: MODULE_PERMISSIONS.DISEASE,
-        is_display: randomNum(2) < 1,
-        detail: DIS
-      },
-      [MODULE_PERMISSIONS.LESION]: {
-        id: MODULE_PERMISSIONS.LESION,
-        is_display: randomNum(2) < 1,
-        detail: LES,
-      }
-    }
-
+    const config: { [key: string]: any } = {
+      userID,
+      [MODULE_PERMISSIONS.COMMENT]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.HISTORY_INFO]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.QUALITY_CONTROL]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.R_TRANSFER_MODE]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.R_REVISIT_INTERVAL]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.ENA_MEASURE]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.EXP_REPORT]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.MARKS]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.DISEASE]: randomNum(2) < 1,
+      [MODULE_PERMISSIONS.LESION]: randomNum(2) < 1
+    };
+    const measuerConfigItem: { [key: string]: any } = { userID };
+    Object.values(MEASURE_LINES).forEach((line: string) => {
+      measuerConfigItem[line] = randomNum(2) < 1;
+    });
+    measureConfig.push(measuerConfigItem);
+    const markerConfigItem: { [key: string]: any } = { userID };
+    Object.values(MARKERS).forEach((line: string) => {
+      markerConfigItem[line] = randomNum(2) < 1;
+    });
+    markerConfig.push(markerConfigItem);
+    configs.push(config);
     const user: USER_DATA = {
-      id: `USER${guid()}`,
+      id: userID,
       userName: `test_${index}`,
       name,
       password: 'test',
       role,
       appMode,
-      permission,
-      config,
       orgID: role !== ROLE.SUP_AD && orgID || '',
     };
     users.push(user);
   });
-
-  fs.writeFile(USERS, JSON.stringify(users), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${USERS}`);
-  });
+  writeToPath(DISCONFIG, diseaseConfig, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing diseaseConfig.csv'));
+  writeToPath(LESCONFIG, lesionConfig, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing lessionConfig.csv'));
+  writeToPath(MEASURECONFIG, measureConfig, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing measureConfig.csv'));
+  writeToPath(MARKERCONFIG, markerConfig, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing markerConfig.csv'));
+  writeToPath(USERCONFIG, configs, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing userConfig.csv'));
+  writeToPath(PERMISSIONS, permissions, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing permissions.csv'));
+  writeToPath(USERS, users, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing users.csv'));
 };
 
 export const generalDevices = () => {
@@ -329,7 +335,7 @@ export const generalDevices = () => {
     } while (devices.filter((device: DEVICE_DATA) => device.orgID === orgID).length >= CONF.maxDevicesForOneOrg)
 
     devices.push({
-      id: `DEVICE${guid(26)}`,
+      id: `DEVICE_${guid(26)}`,
       name: `P${guid(6)}`,
       orgID,
       factory: OTS.manufacturers[randomNum(OTS.manufacturers.length)],
@@ -339,20 +345,25 @@ export const generalDevices = () => {
       storageFormat: OTS.fileTypes[randomNum(OTS.fileTypes.length)],
     });
   }
-  fs.writeFile(DEVICES, JSON.stringify(devices), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${DEVICES}`);
-  });
+  writeToPath(DEVICES, devices, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing devices.csv'));
+  // fs.writeFile(DEVICES, JSON.stringify(devices), (err) => {
+  //   if (err) return console.error(err);
+  //   return console.info(`Has generated mock data into ${DEVICES}`);
+  // });
 };
 
 export const generalPatients = () => {
   const names: Array<string> = JSON.parse(fs.readFileSync(MATERIAL.PATIENTS_NAMES, 'utf8'));
   const tgtNames: Array<string> = (names.length > CONF.patients && names.slice(0, CONF.patients)) || names;
   const genders = [GENDER.FEMALE, GENDER.MALE, GENDER.OTHER];
+  const historyConfig: Array<{ [key: string]: any }> = [];
   tgtNames.forEach((name: string) => {
+    const patientID = `PTS_${guid(18)}`;
     const age: number = randomNum(14, 100);
     const curDate: Date = new Date();
-    const createDate: Date = new Date(`${curDate.getFullYear() - randomNum(age - 2)}--${randomNum(12, 1)}-${randomNum(28, 1)}`);
+    const createDate: Date = new Date(`${curDate.getFullYear() - randomNum(age - 2)}-${randomNum(12, 1)}-${randomNum(28, 1)}`);
     let udpateDate: Date = createDate;
     if (randomNum(2) < 1) {
       const aYear = randomNum(2);
@@ -369,6 +380,7 @@ export const generalPatients = () => {
     const maxExamCount = randomNum(Object.values(HISTORY_TPLS[TPL_GROUPS.OT_RES]).length);
     const maxHistoryCount = randomNum(Object.values(HISTORY_TPLS[TPL_GROUPS.HISTORY]).length);
     const maxNoteCount = randomNum(Object.values(HISTORY_TPLS[TPL_GROUPS.RECORD_NODE]).length);
+
     const history: HISTORY_INFO_DATA = {
       main: [],
       exam: [],
@@ -407,7 +419,9 @@ export const generalPatients = () => {
         const tgtTPL = tgtTPLs[randomNum(tgtTPLs.length)];
         if (tgtTPL && used.indexOf(tgtTPL.id) <= 0) {
           used.push(tgtTPL.id);
-          history[groupName].push(generateTPLValues(tgtTPL));
+          const item = generateTPLValues(tgtTPL, patientID);
+          historyConfig.push(item);
+          history[groupName].push(item);
         }
       } while (history[groupName].length < maxCount)
     });
@@ -423,7 +437,7 @@ export const generalPatients = () => {
     } while (!createdBy);
 
     patients.push({
-      id: `PTS${guid(18)}`,
+      id: patientID,
       mobile: randomNum(18999999999, 13400000000).toString(),
       name,
       birthday: new Date(`${curDate.getFullYear() - age}-${randomNum(12, 1)}-${randomNum(28, 1)}`),
@@ -434,17 +448,23 @@ export const generalPatients = () => {
       gender: genders[randomNum(genders.length)],
       has_deleted: (randomNum(2) < 1 && BOOLEAN_STATE.TRUE) || BOOLEAN_STATE.FALSE,
       other_info: '',
-      history,
+      // history,
       createdBy,
       create_time: createDate,
       update_time: udpateDate,
     });
   });
+  writeToPath(HISTORY, historyConfig, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing history.csv'));
+  writeToPath(PATINETS, patients, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing patients.csv'));
 
-  fs.writeFile(PATINETS, JSON.stringify(patients), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${PATINETS}`);
-  });
+  // fs.writeFile(PATINETS, JSON.stringify(patients), (err) => {
+  //   if (err) return console.error(err);
+  //   return console.info(`Has generated mock data into ${PATINETS}`);
+  // });
 };
 
 const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDoctor: boolean): RESULT | string => {
@@ -515,31 +535,36 @@ const fitResultVal = (key: DISEASES | LESIONS | string, setAI: boolean, setDocto
   return key === DISEASES.OT && ' ' || res;
 };
 
-const insertPhotos = (recordID: string, state: RECORD_STATE): Array<number> => {
+const insertPhotos = (recordID: string, state: RECORD_STATE): Array<string> => {
   const maxPhotos = randomNum(CONF.maxPhotosForOneRecord, 1);
   const tgtFile = PATHS[randomNum(PATHS.length)];
-  const tgtPhotoIDs: Array<number> = [];
+  const tgtPhotoIDs: Array<string> = [];
   const qualities = [PHOTO_QUALITY.BAD, PHOTO_QUALITY.GOOD, PHOTO_QUALITY.NORMAL, PHOTO_QUALITY.NOT_APPLICABLE, PHOTO_QUALITY.NO_CALC]
   for (let i = 0; i < maxPhotos; i++) {
     const lesions: { [key: string]: RESULT | string } = {};
     Object.values(LESIONS).forEach((LES: string) => {
       lesions[LES] = fitResultVal(LES, state !== RECORD_STATE.CALCING, (state === RECORD_STATE.PUSHED || state === RECORD_STATE.REVIEWED));
     })
+    const photoID = `PHOTO_${guid()}`
     let photo: PHOTO_DATA = {
       ai_markers: [],
       art_mask: '',
-      art_ratio: { AI: '', doctor: '' },
+      'art_ratio/AI': '',
+      'art_ratio/doctor': '',
+      // art_ratio: { AI: '', doctor: '' },
       brightness: 0,
       contrast: 0,
       cup_disk_mask: '',
-      cup_disk_ratio: { AI: '', doctor: '' },
-      diskBox: {},
+      'cup_disk_ratio/AI': '',
+      'cup_disk_ratio/doctor': '',
+      // cup_disk_ratio: { AI: '', doctor: '' },
+      // diskBox: {},
       filesize: tgtFile.size.toString(),
       height: tgtFile.height,
-      id: parseInt(guid()),
+      id: photoID,
       imageUrl: tgtFile.big,
       lesions,
-      maculaBox: {},
+      // maculaBox: {},
       markers: [],
       measureData: {
         art_ratio: {                // 动静脉比值(arteriovenous_ratio)
@@ -565,45 +590,65 @@ const insertPhotos = (recordID: string, state: RECORD_STATE): Array<number> => {
     };
     switch (state) {
       case RECORD_STATE.CREATED:
-        photo.diskBox = {
-          centerPoint: {
-            x: parseFloat(`0.${randomNum(9999, 1000)}`),
-            y: parseFloat(`0.${randomNum(9999, 1000)}`),
-          },
+        diskBox.push({
+          photoID,
+          ['centerPoint/x']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          ['centerPoint/y']: parseFloat(`0.${randomNum(9999, 1000)}`),
           radius: parseFloat(`0.0${randomNum(999, 100)}`),
-        };
-        photo.maculaBox = {
-          centerPoint: {
-            x: parseFloat(`0.${randomNum(9999, 1000)}`),
-            y: parseFloat(`0.${randomNum(9999, 1000)}`),
-          },
-        };
-        photo.art_ratio.AI = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
-        photo.cup_disk_ratio.AI = `${randomNum(2)}.${randomNum(10)}:${randomNum(2)}`;
+        });
+        maculaBox.push({
+          photoID,
+          ['centerPoint/x']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          ['centerPoint/y']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          radius: parseFloat(`0.0${randomNum(999, 100)}`),
+        });
+        // photo.diskBox = {
+        //   centerPoint: {
+        //     x: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //     y: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //   },
+        //   radius: parseFloat(`0.0${randomNum(999, 100)}`),
+        // };
+        // photo.maculaBox = {
+        //   centerPoint: {
+        //     x: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //     y: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //   },
+        // };
+        photo['art_ratio/AI'] = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
+        photo['cup_disk_ratio/AI'] = `${randomNum(2)}.${randomNum(10)}:${randomNum(2)}`;
         break;
       case RECORD_STATE.REVIEWED:
       case RECORD_STATE.PUSHED:
-        photo.diskBox = {
-          centerPoint: {
-            x: parseFloat(`0.${randomNum(9999, 1000)}`),
-            y: parseFloat(`0.${randomNum(9999, 1000)}`),
-          },
+        diskBox.push({
+          photoID,
+          ['centerPoint/x']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          ['centerPoint/y']: parseFloat(`0.${randomNum(9999, 1000)}`),
           radius: parseFloat(`0.0${randomNum(999, 100)}`),
-        };
-        photo.maculaBox = {
-          centerPoint: {
-            x: parseFloat(`0.${randomNum(9999, 1000)}`),
-            y: parseFloat(`0.${randomNum(9999, 1000)}`),
-          },
-        };
-        photo.art_ratio = {
-          AI: `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`,
-          doctor: `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`,
-        };
-        photo.cup_disk_ratio = {
-          AI: `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`,
-          doctor: `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`,
-        };
+        });
+        maculaBox.push({
+          photoID,
+          ['centerPoint/x']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          ['centerPoint/y']: parseFloat(`0.${randomNum(9999, 1000)}`),
+          radius: parseFloat(`0.0${randomNum(999, 100)}`),
+        });
+        // photo.diskBox = {
+        //   centerPoint: {
+        //     x: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //     y: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //   },
+        //   radius: parseFloat(`0.0${randomNum(999, 100)}`),
+        // };
+        // photo.maculaBox = {
+        //   centerPoint: {
+        //     x: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //     y: parseFloat(`0.${randomNum(9999, 1000)}`),
+        //   },
+        // };
+        photo['art_ratio/AI'] = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
+        photo['art_ratio/doctor'] = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
+        photo['cup_disk_ratio/AI'] = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
+        photo['cup_disk_ratio/doctor'] = `${randomNum(2)}:${randomNum(2)}.${randomNum(10, 1)}`;
         break;
       default:
         break;
@@ -616,6 +661,7 @@ const insertPhotos = (recordID: string, state: RECORD_STATE): Array<number> => {
 
 export const generalRecords = () => {
   const maxCount = CONF.records;
+  const recordDiseases: Array<{ [key: string]: any }> = [];
   const states = [RECORD_STATE.CALCING, RECORD_STATE.CREATED, RECORD_STATE.PUSHED, RECORD_STATE.REVIEWED];
   for (let i = 0; i < maxCount; i++) {
     let tgtPatient = patients[randomNum(patients.length)];
@@ -626,7 +672,7 @@ export const generalRecords = () => {
     let examTime = addDays(tgtPatient.update_time, randomNum(20, 1));
     let checkTime: string | Date = '';
     let viewerID = '';
-    const recordID = `REC${guid(18)}`;
+    const recordID = `REC_${guid(18)}`;
     const tgtRecordPhotoIDs = insertPhotos(recordID, tgtState);
 
     const [{ orgID: tgtOrgID }]: Array<USER_DATA> = users.filter((user: USER_DATA) => user.id === tgtPatient.createdBy);
@@ -647,14 +693,21 @@ export const generalRecords = () => {
     }
     const disease: { [key in DISEASES]?: RESULT | string } = {};
     Object.values(DISEASES).forEach((DIS: DISEASES) => {
-      disease[DIS] = fitResultVal(DIS, tgtState !== RECORD_STATE.CALCING, (tgtState === RECORD_STATE.PUSHED || tgtState === RECORD_STATE.REVIEWED));
+      const disRes = fitResultVal(DIS, tgtState !== RECORD_STATE.CALCING, (tgtState === RECORD_STATE.PUSHED || tgtState === RECORD_STATE.REVIEWED));
+      recordDiseases.push({
+        recordID,
+        disID: DIS,
+        AI: (typeof disRes !== 'string' && disRes.AI) || '',
+        doctor: (typeof disRes !== 'string' && disRes.doctor) || '',
+        OT: (typeof disRes === 'string' && disRes) || '',
+      });
     });
 
     records.push({
       id: recordID,
       pid: tgtPatient.id,
       examTime,
-      disease,
+      // disease,
       push: tgtState === RECORD_STATE.REVIEWED && randomNum(2) < 1 || false,
       // ai_disease,
       // doctor_disease,
@@ -666,26 +719,49 @@ export const generalRecords = () => {
       viewerID,
     });
   }
+  writeToPath(DISKBOX, diskBox, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing diskBox.csv'));
+  writeToPath(MACULABOX, maculaBox, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing maculaBox.csv'));
+  writeToPath(PHOTOS, photos, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing photos.csv'));
+  writeToPath(DISEASE, recordDiseases, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing diseases.csv'));
+  writeToPath(RECORDS, records, { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing records.csv'));
 
-  fs.writeFile(PHOTOS, JSON.stringify(photos), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${PHOTOS}`);
-  });
-  fs.writeFile(RECORDS, JSON.stringify(records), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${RECORDS}`);
-  });
+  // fs.writeFile(PHOTOS, JSON.stringify(photos), (err) => {
+  //   if (err) return console.error(err);
+  //   return console.info(`Has generated mock data into ${PHOTOS}`);
+  // });
+  // fs.writeFile(RECORDS, JSON.stringify(records), (err) => {
+  //   if (err) return console.error(err);
+  //   return console.info(`Has generated mock data into ${RECORDS}`);
+  // });
 };
 
 export const clearSYS = () => {
-  fs.writeFile(SYS, JSON.stringify({
-    TOKENS: {},
-    LOGIN_USER: {},
+  writeToPath(SYS, [{
+    TOKENID: '',
+    LOGIN_TIME: '',
+    LOGIN_USER_ID: '',
     LANG: '',
-  }), (err) => {
-    if (err) return console.error(err);
-    return console.info(`Has generated mock data into ${SYS}`);
-  });
+  }], { headers: true })
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing sys.csv'));
+  // fs.writeFile(SYS, JSON.stringify({
+  //   TOKENS: {},
+  //   LOGIN_USER: {},
+  //   LANG: '',
+  // }), (err) => {
+  //   if (err) return console.error(err);
+  //   return console.info(`Has generated mock data into ${SYS}`);
+  // });
 }
 
 export const generateAllData = () => {

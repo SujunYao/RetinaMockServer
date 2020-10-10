@@ -10,7 +10,7 @@ export const guid = (len: number = 32): string => {
     });
 }
 
-export const randomNum = (max: number, min: number = 0): number => parseInt((Math.random() * max + min).toString(), 10)
+export const randomNum = (max: number, min: number = 0): number => parseInt((Math.random() * (max - min) + min).toString(), 10)
 
 export const addDays = (curDate: Date, days: number): Date => {
     let res = curDate
@@ -29,6 +29,6 @@ export const getAge = (birthday: Date, curDate: Date = new Date()): number => {
     return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
 }
 
-export const calcDisResult = ()=>{
-    
+export const calcDisResult = () => {
+
 };
