@@ -79,7 +79,7 @@ export default {
 
               // }
             })
-            console.log(a);
+          console.log(a);
         });
       //   console.log(str);
       //   if (str) {
@@ -194,5 +194,38 @@ export default {
   //     //   });
   //   });
   // },
+
+  wechat_mobile: (req: Request, res: Response) => {
+
+    // let str = '';
+    // req.on('data', (chunk) => { str += chunk; });
+    // req.on('end', () => {
+    //   const reqData = JSON.parse(str);
+    //   const request = new XMLHttpRequest();
+    //   request.setRequestHeader('Content-Type', 'application/json');
+    //   request.setRequestHeader('Accept', 'application/json');
+    //   request.setRequestHeader('Authorization', req.header('Authorization') || '');
+    //   request.onreadystatechange = function () {
+    //     if (this.readyState == 4) {
+    //       if (this.status == 200) {
+    //         const resData = ;
+    //         res.json(JSON.parse(this.responseText));
+    //       } else {
+    //         throw new Error(`${this.status}: ${JSON.parse(this.responseText).error_message}`);
+    //       }
+    //     }
+    //   };
+    //   request.open('POST', '/api/wechat_mobile', true);
+    //   request.send(JSON.stringify(reqData));
+    // });
+
+    res.json({
+      status: res.statusCode,
+      error_message: '',
+      patient_status: 1,
+      pwd_status: 0,
+      openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
+    });
+  }
 
 };

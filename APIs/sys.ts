@@ -253,4 +253,26 @@ export default {
       return console.info(`Has update mock data into ${SYS}`);
     });
   },
+
+  send_auth: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+    });
+  },
+
+  verify_code: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+    });
+  },
+
+  wechat_bind:(req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      pid: '11111111111',
+    });
+  },
 }
