@@ -226,6 +226,14 @@ export default {
       pwd_status: 0,
       openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
     });
-  }
+  },
+
+  patient_pwd: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      pid: '2132132131',
+    });
+  },
 
 };
