@@ -86,5 +86,6 @@ APP.post('/api/send_auth', (req, res) => APIs.sys.send_auth(req, res));
 APP.post('/api/verify_code', (req, res) => APIs.sys.verify_code(req, res));
 APP.post('/api/wechat_bind', (req, res) => APIs.sys.wechat_bind(req, res));
 APP.post('/api/patient_pwd', (req, res) => APIs.user.patient_pwd(req, res));
+APP.get('/api/health_record', (req, res)=> APIs.user.health_record(req, res));
 
 export default APP;

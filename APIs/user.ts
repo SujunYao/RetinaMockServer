@@ -222,7 +222,7 @@ export default {
     res.json({
       status: res.statusCode,
       error_message: '',
-      patient_status: 1,
+      patient_status: 0,
       pwd_status: 0,
       openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
     });
@@ -236,4 +236,25 @@ export default {
     });
   },
 
+  health_record:(req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      bg_empty: 12,
+      bg_full: 13.52,
+      bg_low: 1.322,
+      birthday: '2020-2-3',
+      bp_high: 33,
+      bp_low: 55,
+      gender: 'M',
+      height: 185,
+      icon: '',
+      is_smoke: -1,
+      location: 'Shanghai',
+      mobile: '121312123',
+      name: 'USER NAME',
+      smoke_years: 1,
+      weight: 105,
+    });
+  },
 };
