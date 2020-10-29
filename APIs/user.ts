@@ -250,6 +250,7 @@ export default {
       height: 185,
       icon: '',
       is_smoke: -1,
+      ID_number: '310108198612222555',
       location: 'Shanghai',
       mobile: '121312123',
       name: 'USER NAME',
