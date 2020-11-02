@@ -197,34 +197,35 @@ export default {
 
   wechat_mobile: (req: Request, res: Response) => {
 
-    // let str = '';
-    // req.on('data', (chunk) => { str += chunk; });
-    // req.on('end', () => {
-    //   const reqData = JSON.parse(str);
-    //   const request = new XMLHttpRequest();
-    //   request.setRequestHeader('Content-Type', 'application/json');
-    //   request.setRequestHeader('Accept', 'application/json');
-    //   request.setRequestHeader('Authorization', req.header('Authorization') || '');
-    //   request.onreadystatechange = function () {
-    //     if (this.readyState == 4) {
-    //       if (this.status == 200) {
-    //         const resData = ;
-    //         res.json(JSON.parse(this.responseText));
-    //       } else {
-    //         throw new Error(`${this.status}: ${JSON.parse(this.responseText).error_message}`);
-    //       }
-    //     }
-    //   };
-    //   request.open('POST', '/api/wechat_mobile', true);
-    //   request.send(JSON.stringify(reqData));
-    // });
+    let str = '';
+    req.on('data', (chunk) => { str += chunk; });
+    req.on('end', () => {
+      const reqData = JSON.parse(str);
+      //   const request = new XMLHttpRequest();
+      //   request.setRequestHeader('Content-Type', 'application/json');
+      //   request.setRequestHeader('Accept', 'application/json');
+      //   request.setRequestHeader('Authorization', req.header('Authorization') || '');
+      //   request.onreadystatechange = function () {
+      //     if (this.readyState == 4) {
+      //       if (this.status == 200) {
+      //         const resData = ;
+      //         res.json(JSON.parse(this.responseText));
+      //       } else {
+      //         throw new Error(`${this.status}: ${JSON.parse(this.responseText).error_message}`);
+      //       }
+      //     }
+      //   };
+      //   request.open('POST', '/api/wechat_mobile', true);
+      //   request.send(JSON.stringify(reqData));
+      // });
 
-    res.json({
-      status: res.statusCode,
-      error_message: '',
-      patient_status: 0,
-      pwd_status: 0,
-      openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
+      res.json({
+        status: res.statusCode,
+        error_message: '',
+        patient_status: reqData.mobile !== '1234567892' && 1 || 0,
+        pwd_status: reqData.mobile !== '1234567892' && reqData.mobile !== '1234567891' && 1 || 0,
+        openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
+      });
     });
   },
 
@@ -236,14 +237,14 @@ export default {
     });
   },
 
-  health_record:(req: Request, res: Response) => {
+  health_record: (req: Request, res: Response) => {
     res.json({
       status: 200,
       error_message: '',
       bg_empty: 12,
       bg_full: 13.52,
       bg_low: 1.322,
-      birthday: '2020-2-3',
+      birthday: '2019-12-02',
       bp_high: 33,
       bp_low: 55,
       gender: 'M',
@@ -258,4 +259,11 @@ export default {
       weight: 105,
     });
   },
+
+  update_health_record: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: ''
+    });
+  }
 };

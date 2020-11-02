@@ -10,7 +10,7 @@ const backednServerURL = 'http://retina.voxelcloud.net.cn';
 
 APP.all('*', function (req, res, next) {
   // console.log(req.headers.origin);
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:19006');
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.setHeader('Access-Control-Allow-Method', 'GET,POST,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'access-control-allow-headers,access-control-allow-methods,Accept,Content-Type,x-requested-with,authorization,Origin');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -87,5 +87,6 @@ APP.post('/api/verify_code', (req, res) => APIs.sys.verify_code(req, res));
 APP.post('/api/wechat_bind', (req, res) => APIs.sys.wechat_bind(req, res));
 APP.post('/api/patient_pwd', (req, res) => APIs.user.patient_pwd(req, res));
 APP.get('/api/health_record', (req, res)=> APIs.user.health_record(req, res));
+APP.post('/api/health_record', (req, res)=> APIs.user.update_health_record(req, res));
 
 export default APP;
