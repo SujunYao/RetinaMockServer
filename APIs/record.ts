@@ -5,6 +5,7 @@ import { USER_DATA, ORG_DATA, RECORD_RES, RECORD_DATA, ORG_RES, PATIENT_DATA, DI
 import sys from './sys';
 import { getAge } from '../MockData/utils';
 import { LOGIN_STATE, AUTHOR_PREFIX, DISEASES, RECORD_STATE } from '../enum';
+// import { Response } from 'node-fetch';
 
 const SYS = path.join(__dirname, '../MockData/sys.json');
 const DISEASESPATH = path.join(__dirname, '../MockData/RawMaterials/diseases.json');
@@ -213,11 +214,218 @@ export default {
     //     });
     //   }
     // });
+    res.json({
+      status: 200,
+      error_message: '',
+      records: [{
+        "pid": "00001",
+        "name": "Adam Yao",
+        "gender": "M",
+        "birthday": "1986-12-02",
+        "height": 180,
+        "weight": 182,
+        "bg_empty": 160.2,
+        "bg_full": 49.5,
+        "bg_low": 30.22,
+        "bp_high": 55.23,
+        "bp_low": 33.5,
+        "is_smoke": 0,
+        "smoke_years": 0,
+        "history": "高血压"
+      }, {
+        "pid": "00002",
+        "name": "Queenie Yan",
+        "gender": "F",
+        "birthday": "1987-04-19",
+        "height": 168,
+        "weight": 94,
+        "bg_empty": 30.2,
+        "bg_full": 29.5,
+        "bg_low": 50.22,
+        "bp_high": 65.23,
+        "bp_low": 13.5,
+        "is_smoke": 1,
+        "smoke_years": 1,
+        "history": ""
+      }, {
+        "pid": "00003",
+        "name": "Agnes Yao",
+        "gender": "F",
+        "birthday": "2018-11-07",
+        "height": 98,
+        "weight": 50,
+        "bg_empty": 10.2,
+        "bg_full": 19.5,
+        "bg_low": 13.22,
+        "bp_high": 22.23,
+        "bp_low": 13.6,
+        "is_smoke": 0,
+        "smoke_years": 0,
+        "history": ""
+      }]
+    })
   },
 
   getRecord: (req: Request, res: Response) => {
 
   },
+
+  getScope: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      "scope": {
+        "2022": {
+          "4": [
+            {
+              "day": 2,
+              "weekday": "Monday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            },
+            {
+              "day": 12,
+              "weekday": "Tuesday",
+              "available": [
+                "afternoon"
+              ]
+            },
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ],
+          "3": [
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ],
+          "5": [
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2021": {
+          "5": [
+            {
+              "day": 11,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2023": {
+          "5": [
+            {
+              "day": 2,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2011": {
+          "5": [
+            {
+              "day": 27,
+              "weekday": "Friday",
+              "available": [
+                "morning"
+              ]
+            }
+          ]
+        },
+        "2012": {
+          "5": [
+            {
+              "day": 13,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2018": {
+          "5": [
+            {
+              "day": 7,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        }
+      }
+    });
+  },
+
+  getLastExam: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      "patient": {
+        "name": "patient1",
+        "gender": "M",
+        "birthday": "2002-02-02",
+        "icon": "",
+      },
+      "exam": {
+        "id": 1,
+        "examTime": "2020-01-01",
+        "disease": "增殖性DR,青光眼",
+        "transfer_reexam": "非紧急转诊, 无需复查",
+      },
+      "reservation": {
+        "id": 2,//(Reservation主键,未预约时为'')
+        "status": "",//(确认中:confirming,已确认:confirmed,未预约时为'',已过期'expired')
+        "select_time": [
+          {
+            "year": 2020,
+            "month": 4,
+            "day": 1,
+            "weekday": "Wednesday",
+            "available": "morning"
+          },
+          {}
+        ],//(无预约时为[])
+        "confirm_time": {},//(未确认时为{})
+      },
+    });
+  },
+  transfer_org: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      name: 'hospical A',
+      addreass: 'test addresss '
+    });
+  }
 };
 
 // const Request: <T>(method: number) => Promise<T> = async (method)=>{};

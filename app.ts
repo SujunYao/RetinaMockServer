@@ -37,7 +37,7 @@ APP.options('*', function (req, res) {
 // APP.post('/api/wechat_pid', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_pid`));
 // APP.post('/api/wechat_report', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_report`));
 // APP.post('/api/wechat_unbind', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_unbind`));
-// APP.post('/api/transfer_org', (req, res) => res.redirect(307, `${backednServerURL}/api/transfer_org`));
+APP.post('/api/transfer_org', (req, res) => APIs.record.transfer_org(req, res));
 // APP.post('/api/scope', (req, res) => res.redirect(307, `${backednServerURL}/api/scope`))
 // APP.post('/api/report_validation', (req, res) => res.redirect(307, `${backednServerURL}/api/report_validation`))
 // APP.post('/api/health_record', (req, res) => {
@@ -88,5 +88,8 @@ APP.post('/api/wechat_bind', (req, res) => APIs.sys.wechat_bind(req, res));
 APP.post('/api/patient_pwd', (req, res) => APIs.user.patient_pwd(req, res));
 APP.get('/api/health_record', (req, res)=> APIs.user.health_record(req, res));
 APP.post('/api/health_record', (req, res)=> APIs.user.update_health_record(req, res));
+APP.get('/api/wechat_last_exam', (req, res)=>APIs.record.getLastExam(req, res));
+APP.post('/api/scope', (req, res)=> APIs.record.getScope(req, res));
+APP.get('/api/wechat_records', (req, res)=>APIs.record.getRecords(req, res));
 
 export default APP;
