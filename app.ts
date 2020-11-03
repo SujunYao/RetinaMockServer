@@ -88,5 +88,7 @@ APP.post('/api/wechat_bind', (req, res) => APIs.sys.wechat_bind(req, res));
 APP.post('/api/patient_pwd', (req, res) => APIs.user.patient_pwd(req, res));
 APP.get('/api/health_record', (req, res)=> APIs.user.health_record(req, res));
 APP.post('/api/health_record', (req, res)=> APIs.user.update_health_record(req, res));
-
+APP.get('/api/wechat_last_exam', (req, res)=>APIs.record.getLastExam(req, res));
+APP.get('/api/get_reserve', (req, res)=> APIs.record.getReserve(req, res));
+APP.post('/api/scope', (req, res)=>APIs.record.getScope(req, res));
 export default APP;

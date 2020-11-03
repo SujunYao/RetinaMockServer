@@ -218,6 +218,182 @@ export default {
   getRecord: (req: Request, res: Response) => {
 
   },
+  getLastExam: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      "patient": {
+        "name": "patient1",
+        "gender": "M",
+        "birthday": "2002-02-02",
+        "icon": "",
+      },
+      "exam": {
+        "id": 1,
+        "examTime": "2020-01-01",
+        "disease": "增殖性DR,青光眼",
+        "transfer_reexam": "非紧急转诊, 无需复查",
+      },
+      "reservation": {
+        "id": 2,
+        "status": "confirming",
+        "select_time": [
+          {
+            "year": 2020,
+            "month": 4,
+            "day": 1,
+            "weekday": "Wednesday",
+            "available": "morning"
+          },
+          {}
+        ],
+        "confirm_time": {}
+      },
+    });
+  },
+
+  getReserve: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      "patient": {
+        "pid": "aa",
+        "name": "patient1",
+        "mobile": "123",
+        "contact_mobile": "234",
+      },
+      "org": {
+        "id": 1232131,
+        "name": "org1",
+        "address": "",
+      },
+      "reservation": {
+        "id": 123231,
+        "status": "",
+        "select_time": [],
+          // { year: 2012, month: 4, day: 3, weekday: 'Firdaty', available: 'morning' },
+          // { year: 2012, month: 5, day: 1, weekday: 'Thursday', available: 'afternoon' },
+          // { year: 2013, month: 1, day: 23, weekday: 'Monday', available: 'morning' }],
+        "confirm_time": {}
+      }
+    });
+  },
+
+  getScope: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      "scope": {
+        "2022": {
+          "4": [
+            {
+              "day": 2,
+              "weekday": "Monday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            },
+            {
+              "day": 12,
+              "weekday": "Tuesday",
+              "available": [
+                "afternoon"
+              ]
+            },
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ],
+          "3": [
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ],
+          "5": [
+            {
+              "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2021": {
+          "5": [
+            {
+              "day": 11,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2023": {
+          "5": [
+            {
+              "day": 2,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2011": {
+          "5": [
+            {
+              "day": 27,
+              "weekday": "Friday",
+              "available": [
+                "morning"
+              ]
+            }
+          ]
+        },
+        "2012": {
+          "5": [
+            {
+              "day": 13,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        },
+        "2018": {
+          "5": [
+            {
+              "day": 7,
+              "weekday": "Friday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            }
+          ]
+        }
+      }
+
+    });
+  }
 };
 
 // const Request: <T>(method: number) => Promise<T> = async (method)=>{};
