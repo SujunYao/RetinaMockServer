@@ -37,7 +37,7 @@ APP.options('*', function (req, res) {
 // APP.post('/api/wechat_pid', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_pid`));
 // APP.post('/api/wechat_report', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_report`));
 // APP.post('/api/wechat_unbind', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_unbind`));
-// APP.post('/api/transfer_org', (req, res) => res.redirect(307, `${backednServerURL}/api/transfer_org`));
+APP.post('/api/transfer_org', (req, res) => APIs.record.transfer_org(req, res));
 // APP.post('/api/scope', (req, res) => res.redirect(307, `${backednServerURL}/api/scope`))
 // APP.post('/api/report_validation', (req, res) => res.redirect(307, `${backednServerURL}/api/report_validation`))
 // APP.post('/api/health_record', (req, res) => {
