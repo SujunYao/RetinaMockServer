@@ -15,6 +15,78 @@ const PRODUCT_INFO = path.join(__dirname, '../MockData/RawMaterials/productInfo.
 const ORGS = path.join(__dirname, '../MockData/orgs.json');
 
 export default {
+  getRPT: (req: Request, res: Response) => {
+    res.json({
+      error_message: '',
+      "patient": {
+        "pid": "abc",//(患者主键)
+        "name": "patient1",
+        "gender": "M",
+        "birthday": "2002-02-02",
+        "history": "高血压",
+        "mobile": "12333",
+      },
+      "exam": {
+        "id": 1,
+        "examTime": "2020-01-01",
+        "disease": "左眼轻度DR,青光眼,右眼无明显病变",
+        "transfer_reexam": "",
+        "comment": "",
+        "uploader": {
+          "name": "doctor1",
+          "org": "org1",
+        },
+        "viewer": {
+          "name": "doctor2",
+          "org": "org2"
+        },
+        "checkTime": "2020-02-03 14:00:00",//(审核时间)
+      },
+      "photo": {
+        "photo_list": [
+          {
+            "tag": "左1",
+            "image_link": "http://1.jpg",
+            "image_size": "1000",//(单位字节)
+            "thumb_link": "http://2.jpg",
+            "thumb_size": "500",
+          },
+        ],
+        "quality": "双眼质量合格",
+        "lesion": ["内出血", "微血管瘤"],
+      },
+      "reservation": {
+        "id": 2,//(Reservation主键,未预约时为'')
+        "status": "confirming",//(确认中:confirming,已确认:confirmed,未预约时为'',已过期'expired',)
+        "select_time": [
+          {
+            "year": 2020,
+            "month": 4,
+            "day": 1,
+            "weekday": "Wednesday",
+            "available": "morning"
+          },
+          {}
+        ],//(无预约时为[])
+        "confirm_time": {},//(未确认时为{})
+        "org_address": "",
+      }
+    });
+  },
+  udpateAPPT: (req: Request, res: Response) => {
+    res.json({
+      status: 'confirming',
+      error_message: '',
+      id: 111,
+    })
+  },
+  deleteAPPT: (req: Request, res: Response) => {
+    res.json({
+      status: 'confirming',
+      error_message: '',
+      id: 111,
+    })
+  },
   getRecords: (req: Request, res: Response) => {
     // const orgs = JSON.parse(fs.readFileSync(ORGS, 'utf8'));
     // const users = JSON.parse(fs.readFileSync(USERS, 'utf8'));
@@ -225,6 +297,7 @@ export default {
       "patient": {
         "name": "patient1",
         "gender": "M",
+        "mobile": '123456',
         "birthday": "2002-02-02",
         "icon": "",
       },
@@ -236,7 +309,7 @@ export default {
       },
       "reservation": {
         "id": 2,
-        "status": "confirming",
+        "status": "",
         "select_time": [
           {
             "year": 2020,
@@ -271,9 +344,9 @@ export default {
         "id": 123231,
         "status": "",
         "select_time": [],
-          // { year: 2012, month: 4, day: 3, weekday: 'Firdaty', available: 'morning' },
-          // { year: 2012, month: 5, day: 1, weekday: 'Thursday', available: 'afternoon' },
-          // { year: 2013, month: 1, day: 23, weekday: 'Monday', available: 'morning' }],
+        // { year: 2012, month: 4, day: 3, weekday: 'Firdaty', available: 'morning' },
+        // { year: 2012, month: 5, day: 1, weekday: 'Thursday', available: 'afternoon' },
+        // { year: 2013, month: 1, day: 23, weekday: 'Monday', available: 'morning' }],
         "confirm_time": {}
       }
     });
@@ -392,6 +465,46 @@ export default {
         }
       }
 
+    });
+  },
+
+  getWechatRecords: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      records: [{
+        id: 1,
+        examTime: '2020-01-01',
+        disease: '增殖性DR,青光眼',
+        transfer_reexam: '紧急转诊，1天后复查',
+        reservation: {
+          id: 2,
+          status: 'confirming',
+          select_time: [{
+            year: 2020,
+            month: 4,
+            day: 1,
+            weekday: 'Wednesday',
+            available: 'morning'
+          }],
+        }
+      }, {
+        id: 2,
+        examTime: '2020-01-01',
+        disease: '增殖性DR',
+        transfer_reexam: '紧急转诊，1天后复查',
+        reservation: {
+          id: 2,
+          status: 'confirming',
+          select_time: [{
+            year: 2020,
+            month: 4,
+            day: 1,
+            weekday: 'Wednesday',
+            available: 'morning'
+          }],
+        }
+      }]
     });
   }
 };

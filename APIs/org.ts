@@ -20,7 +20,14 @@ const PRODUCT_INFO = path.join(__dirname, '../MockData/RawMaterials/productInfo.
 const ORGS = path.join(__dirname, '../MockData/orgs.json');
 
 export default {
-
+  getORGInfo: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message:'',
+      name: 'ORG1111111',
+      address: 'fefwfwefewfjweofewjif'
+    })
+  },
   getOrgsTreeByUser: (req: Request, res: Response) => {
     // const orgs = JSON.parse(fs.readFileSync(ORGS, 'utf8'));
     // let str = '';

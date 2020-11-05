@@ -91,4 +91,11 @@ APP.post('/api/health_record', (req, res)=> APIs.user.update_health_record(req, 
 APP.get('/api/wechat_last_exam', (req, res)=>APIs.record.getLastExam(req, res));
 APP.get('/api/get_reserve', (req, res)=> APIs.record.getReserve(req, res));
 APP.post('/api/scope', (req, res)=>APIs.record.getScope(req, res));
+APP.get('/api/wechat_records', (req, res)=>APIs.record.getWechatRecords(req, res));
+APP.post('/api/wechat_pid', (req, res)=>APIs.user.getPID(req, res));
+APP.post('/api/transfer_org', (req, res)=> APIs.org.getORGInfo(req, res));
+APP.post('/api/transfer_reserve', (req, res)=>APIs.record.udpateAPPT(req, res));
+APP.delete('/api/transfer_reserve', (req, res)=>APIs.record.deleteAPPT(req, res));
+APP.post('/api/wechat_report', (req, res)=>APIs.record.getRPT(req,res));
+APP.post('/api/wechat_unbind', (req, res)=>APIs.user.logout(req, res));
 export default APP;

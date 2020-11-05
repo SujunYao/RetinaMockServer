@@ -140,16 +140,27 @@ export default {
     });
   },
 
-  logout: async (req: Request, res: Response) => {
+  getPID: (req: Request, res: Response) => {
+    res.json({
+      status: 200,
+      error_message: '',
+      pid: 'fewwfewfew',
+    });
+  },
+
+  logout: (req: Request, res: Response) => {
     // const orgs = JSON.parse(fs.readFileSync(ORGS, 'utf8'));
     // const productInfo = JSON.parse(fs.readFileSync(PRODUCT_INFO, 'utf8'));
-    const sysData = JSON.parse(fs.readFileSync(SYS, 'utf8'));
-    let str = '';
+    // const sysData = JSON.parse(fs.readFileSync(SYS, 'utf8'));
+    // let str = '';
     // const  userInfo = await csv.parseFile(USERS);
     // console.log(user);
 
     // const userInfo = await sys.analyticalAuthorization(req);
-    req.on('data', (chunk) => { str += chunk; });
+    // req.on('data', (chunk) => { str += chunk; });
+    res.json({
+      error_message: ''
+    });
     // req.on('end', () => {
     //   let error_message = '';
     //   res.statusCode = userInfo ? 200 : 500;
