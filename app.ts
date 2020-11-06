@@ -30,14 +30,14 @@ APP.options('*', function (req, res) {
 });
 
 // APP.post('/api/wechat_mobile', (req, res) =>{ res.header("Origin", 'http://localhost:19006'); res.redirect(307, `${backednServerURL}/api/wechat_mobile`);});
-// APP.post('/api/send_auth', (req, res) => res.redirect(307, `${backednServerURL}/api/send_auth`));
+// APP.post('/api/wechat_mobile', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_mobile`));
 // APP.post('/api/wechat_bind', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_bind`));
 // APP.post('/api/verify_code', (req, res) => res.redirect(307, `${backednServerURL}/api/verify_code`));
 // APP.post('/api/patient_pwd', (req, res) => res.redirect(307, `${backednServerURL}/api/patient_pwd`));
 // APP.post('/api/wechat_pid', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_pid`));
 // APP.post('/api/wechat_report', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_report`));
 // APP.post('/api/wechat_unbind', (req, res) => res.redirect(307, `${backednServerURL}/api/wechat_unbind`));
-APP.post('/api/transfer_org', (req, res) => APIs.record.transfer_org(req, res));
+// APP.post('/api/transfer_org', (req, res) => APIs.record.transfer_org(req, res));
 // APP.post('/api/scope', (req, res) => res.redirect(307, `${backednServerURL}/api/scope`))
 // APP.post('/api/report_validation', (req, res) => res.redirect(307, `${backednServerURL}/api/report_validation`))
 // APP.post('/api/health_record', (req, res) => {

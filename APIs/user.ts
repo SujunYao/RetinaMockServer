@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Response, Request, urlencoded } from "express";
+import { Response, Request, urlencoded, json } from "express";
 import * as csv from 'fast-csv';
 import { parse, parseFile } from '@fast-csv/parse';
 import { USER_DATA, ORG_DATA, USER_RES, SYS_DATA, USER_DATA_RES } from '../interfaces';
@@ -212,6 +212,21 @@ export default {
     req.on('data', (chunk) => { str += chunk; });
     req.on('end', () => {
       const reqData = JSON.parse(str);
+      const { mobile } = reqData;
+      if (mobile === '18516202611') {
+        res.json({
+          // status: res.statusCode,
+          "error_message": "",
+          "patient_status": 1,
+          "pwd_status": 1,
+          "openid": "oEj1Gvy5qSM7GUNdc7fzU2_HfK68"
+        });
+      } else {
+        res.statusCode = 400;
+        res.json({
+          "error_message": "Failed",
+        });
+      }
       //   const request = new XMLHttpRequest();
       //   request.setRequestHeader('Content-Type', 'application/json');
       //   request.setRequestHeader('Accept', 'application/json');
@@ -230,13 +245,13 @@ export default {
       //   request.send(JSON.stringify(reqData));
       // });
 
-      res.json({
-        status: res.statusCode,
-        error_message: '',
-        patient_status: reqData.mobile !== '1234567892' && 1 || 0,
-        pwd_status: reqData.mobile !== '1234567892' && reqData.mobile !== '1234567891' && 1 || 0,
-        openid: 'oEj1Gvy5qSM7GUNdc7fzU2_HfK68'
-      });
+      // res.json({
+      //   status: res.statusCode,
+      //   error_message: '',
+      //   patient_status: reqData.mobile === '12345678921' && 1 || 0,
+      //   pwd_status: reqData.mobile === '12345678911' && 1 || 0,
+      //   openid: '123123123'
+      // });
     });
   },
 

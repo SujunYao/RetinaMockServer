@@ -269,7 +269,7 @@ export default {
   },
 
   wechat_bind:(req: Request, res: Response) => {
-    res.statusCode = 400;
+    // res.statusCode = 400;
     res.json({
       status: 200,
       error_message: '',
