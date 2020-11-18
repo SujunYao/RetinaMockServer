@@ -7,7 +7,6 @@ const USER_SYS_URL = 'http://localhost:4000';
 const APP = express();
 
 const backednServerURL = 'http://retina.voxelcloud.net.cn';
-
 APP.all('*', function (req, res, next) {
   // console.log(req.headers.origin);
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
@@ -62,7 +61,7 @@ APP.options('*', function (req, res) {
 //   const _id = req.param('id');
 //   res.redirect(307, `${backednServerURL}/api/transfer_reserve?id=${_id}`);
 // });
-
+// APP.get('/Files/*', (req, res) =>)
 
 // LOGIN/LOGOUT
 APP.post('/api/login', (req, res) => APIs.user.login(req, res));
@@ -71,10 +70,18 @@ APP.post('/api/logout', (req, res) => APIs.user.logout(req, res));
 
 // COMMON APIS
 APP.get('/api/push_len', (req, res) => APIs.push.getPushLen(req, res));
-
+APP.get('/Files/download/:fileName', (req, res, next) => {
+  const name = req.param('fileName');
+  const FilePath = __dirname + '/Files/download/' + name;
+  res.download(FilePath, name);
+  next();
+});
+APP.get('/api/records/tasks/statis', (req, res) => APIs.task.getSummaryInfo(req, res));
 // PRODUCT APIS
-APP.post('/api/records', (req, res) => APIs.record.getRecords(req, res));
-
+// APP.post('/api/records', (req, res) => APIs.record.getRecords(req, res));
+APP.get('/api/records/tasks', (req, res) => APIs.task.getTasks(req, res));
+APP.delete('/api/records/tasks/:task_id', (req, res) => APIs.task.deleteTask(req, res));
+APP.put('/api/records/tasks/:task_id', (req, res) => APIs.task.upadateTask(req, res));
 // SYS APIS
 APP.post('/api/admin/system_orgs', (req, res) => APIs.org.getOrgsTreeByUser(req, res));
 
@@ -86,16 +93,16 @@ APP.post('/api/send_auth', (req, res) => APIs.sys.send_auth(req, res));
 APP.post('/api/verify_code', (req, res) => APIs.sys.verify_code(req, res));
 APP.post('/api/wechat_bind', (req, res) => APIs.sys.wechat_bind(req, res));
 APP.post('/api/patient_pwd', (req, res) => APIs.user.patient_pwd(req, res));
-APP.get('/api/health_record', (req, res)=> APIs.user.health_record(req, res));
-APP.post('/api/health_record', (req, res)=> APIs.user.update_health_record(req, res));
-APP.get('/api/wechat_last_exam', (req, res)=>APIs.record.getLastExam(req, res));
-APP.get('/api/get_reserve', (req, res)=> APIs.record.getReserve(req, res));
-APP.post('/api/scope', (req, res)=>APIs.record.getScope(req, res));
-APP.get('/api/wechat_records', (req, res)=>APIs.record.getWechatRecords(req, res));
-APP.post('/api/wechat_pid', (req, res)=>APIs.user.getPID(req, res));
-APP.post('/api/transfer_org', (req, res)=> APIs.org.getORGInfo(req, res));
-APP.post('/api/transfer_reserve', (req, res)=>APIs.record.udpateAPPT(req, res));
-APP.delete('/api/transfer_reserve', (req, res)=>APIs.record.deleteAPPT(req, res));
-APP.post('/api/wechat_report', (req, res)=>APIs.record.getRPT(req,res));
-APP.post('/api/wechat_unbind', (req, res)=>APIs.user.logout(req, res));
+APP.get('/api/health_record', (req, res) => APIs.user.health_record(req, res));
+APP.post('/api/health_record', (req, res) => APIs.user.update_health_record(req, res));
+APP.get('/api/wechat_last_exam', (req, res) => APIs.record.getLastExam(req, res));
+APP.get('/api/get_reserve', (req, res) => APIs.record.getReserve(req, res));
+APP.post('/api/scope', (req, res) => APIs.record.getScope(req, res));
+APP.get('/api/wechat_records', (req, res) => APIs.record.getWechatRecords(req, res));
+APP.post('/api/wechat_pid', (req, res) => APIs.user.getPID(req, res));
+APP.post('/api/transfer_org', (req, res) => APIs.org.getORGInfo(req, res));
+APP.post('/api/transfer_reserve', (req, res) => APIs.record.udpateAPPT(req, res));
+APP.delete('/api/transfer_reserve', (req, res) => APIs.record.deleteAPPT(req, res));
+APP.post('/api/wechat_report', (req, res) => APIs.record.getRPT(req, res));
+APP.post('/api/wechat_unbind', (req, res) => APIs.user.logout(req, res));
 export default APP;

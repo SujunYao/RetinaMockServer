@@ -3,6 +3,7 @@ import sys from './sys';
 import record from './record';
 import org from './org';
 import push from './push';
+import task from './task';
 
 export default {
   sys,
@@ -10,4 +11,5 @@ export default {
   record,
   org,
   push,
+  task,
 }

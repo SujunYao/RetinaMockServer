@@ -1,5 +1,27 @@
 // import './enum';
-import { LESIONS, DISEASES, CHECKBOX_MODE, BOOLEAN_STATE, AREA, MODULE_PERMISSIONS, MEASURE_LINES, MARKERS, OPERATION_PERMISSIONS, GENDER, ROLE, RECORD_STATE, MARK_SHAPE, MEASURES, PHOTO_QUALITY, INTERVAL, TRANSFER_MODE, TRANSFER_MODE_EXTEND, APP_VERSION, } from './enum';
+import {
+  LESIONS,
+  DISEASES,
+  CHECKBOX_MODE,
+  BOOLEAN_STATE,
+  AREA,
+  MODULE_PERMISSIONS,
+  MEASURE_LINES,
+  MARKERS,
+  OPERATION_PERMISSIONS,
+  GENDER,
+  ROLE,
+  RECORD_STATE,
+  MARK_SHAPE,
+  MEASURES,
+  PHOTO_QUALITY,
+  INTERVAL,
+  TRANSFER_MODE,
+  TRANSFER_MODE_EXTEND,
+  APP_VERSION,
+  TASK_STATUS,
+  TASK_TYPE,
+} from './enum';
 /**
  * interfaces for the common template;
  * @Sujun
@@ -16,6 +38,34 @@ export interface CACHE {
   ORG_ADMIN_COUNT: COUNT,
   ORG_EXTEND: BOOLEAN,
   ORG_PATIENT_MAX: COUNT,
+}
+
+export interface TASK_DATA {
+  id: number,
+  type: TASK_TYPE,
+  status: TASK_STATUS,
+  name: string,
+  url: string,
+  createTime: number,
+  updateTime: number,
+}
+
+export interface TASK_SUMMARY_INFO {
+  task_type: TASK_TYPE,
+  processing: number,
+  finished: number,
+  interrupted: number,
+  unexpired: number,
+}
+
+export interface TASK_RES_DATA {
+  task_id: number,
+  task_type: TASK_TYPE,
+  status: TASK_STATUS,
+  filename: string,
+  file_url: string,
+  create_time: number,
+  update_time: number,
 }
 
 export interface HISTORY_TPL {

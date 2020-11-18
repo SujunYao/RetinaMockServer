@@ -16,6 +16,21 @@ export enum SIDES {
   RIGHT = 0,
 }
 
+export enum TASK_STATUS {
+  DELETED = 0,   // 已删除
+  IDLE = 1,      // 未开始
+  IP = 2,        // 处理中
+  INTRPT = 3,    // 已中断
+  CMPLT = 4,     // 已完成
+  CXL = 5,       // 已取消
+  EXPD = 6,      // 已过期
+}
+
+export enum TASK_TYPE {
+  pdf = 2,
+  data = 1,
+}
+
 export enum TPL_GROUPS {
   HISTORY = 'HISTORY',            // 病史分组名
   OT_RES = 'OT_RES',              // 其他检查结果分组名

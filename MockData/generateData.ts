@@ -16,6 +16,7 @@ import {
   HISTORY_INFO_DATA,
   DISEASE_DATA,
   LESION_DATA,
+  TASK_DATA,
   PERMISSION,
 } from '../interfaces';
 import fs from 'fs';
@@ -44,6 +45,7 @@ const diskBox: Array<{ [key: string]: any }> = [];
 const maculaBox: Array<{ [key: string]: any }> = [];
 const users: Array<USER_DATA> = [];
 const devices: Array<DEVICE_DATA> = [];
+const tasks: Array<TASK_DATA> = [];
 
 const MATERIAL = {
   FILE_PATHS: path.join(__dirname, './RawMaterials/filePaths.json'),
@@ -57,6 +59,7 @@ const MATERIAL = {
   ORG_NAMES: path.join(__dirname, './RawMaterials/orgNames.json'),
   PATIENTS_NAMES: path.join(__dirname, './RawMaterials/patientNames.json'),
   PRODUCT_INFO: path.join(__dirname, './RawMaterials/productInfo.json'),
+  DOWNLOAD_PATHS: path.join(__dirname, './RawMaterials/downloadFiles.json'),
 };
 
 const PATINETS = path.resolve(__dirname, 'patients.csv');
@@ -76,6 +79,7 @@ const DISKBOX = path.resolve(__dirname, 'diskbox.csv');
 const MACULABOX = path.resolve(__dirname, 'maculabox.csv');
 const DEVICES = path.resolve(__dirname, 'devices.csv');
 const SYS = path.resolve(__dirname, 'sys.csv');
+const TASKS = path.resolve(__dirname, 'tasks.csv');
 
 const CONF = JSON.parse(fs.readFileSync(MATERIAL.CONF, 'utf8'));
 const OTS = JSON.parse(fs.readFileSync(MATERIAL.OT, 'utf8'));
@@ -141,7 +145,7 @@ const generateTPLValues = (TPL: HISTORY_TPL, patientID: string): HISTORY_TPL => 
   return { ...TPL, patientID, id: `HISTORY_${guid()}`, val, selChildID, template_id: parseInt(TPL.id) };
 };
 
-export const generalOrgs = () => {
+export const generateOrgs = () => {
   const names = JSON.parse(fs.readFileSync(MATERIAL.ORG_NAMES, 'utf8'));
   const address = JSON.parse(fs.readFileSync(MATERIAL.ADDRESS, 'utf8'));
   names.forEach((NAME: string, index: number) => {
@@ -188,7 +192,7 @@ export const generalOrgs = () => {
     .on('finish', () => console.log('Done writing Orgs.csv'));
 };
 
-export const generalUser = () => {
+export const generateUser = () => {
   const names = JSON.parse(fs.readFileSync(MATERIAL.DR_NAMES, 'utf8'));
   const configs: Array<{ [key: string]: any }> = [];
   const permissions: Array<{ userID: string }> = [];
@@ -327,7 +331,7 @@ export const generalUser = () => {
     .on('finish', () => console.log('Done writing users.csv'));
 };
 
-export const generalDevices = () => {
+export const generateDevices = () => {
   for (let i = 0; i < CONF.devices; i++) {
     let orgID = orgs[randomNum(orgs.length)].id;
     do {
@@ -354,7 +358,7 @@ export const generalDevices = () => {
   // });
 };
 
-export const generalPatients = () => {
+export const generatePatients = () => {
   const names: Array<string> = JSON.parse(fs.readFileSync(MATERIAL.PATIENTS_NAMES, 'utf8'));
   const tgtNames: Array<string> = (names.length > CONF.patients && names.slice(0, CONF.patients)) || names;
   const genders = [GENDER.FEMALE, GENDER.MALE, GENDER.OTHER];
@@ -659,7 +663,7 @@ const insertPhotos = (recordID: string, state: RECORD_STATE): Array<string> => {
   return tgtPhotoIDs;
 };
 
-export const generalRecords = () => {
+export const generateRecords = () => {
   const maxCount = CONF.records;
   const recordDiseases: Array<{ [key: string]: any }> = [];
   const states = [RECORD_STATE.CALCING, RECORD_STATE.CREATED, RECORD_STATE.PUSHED, RECORD_STATE.REVIEWED];
@@ -762,12 +766,45 @@ export const clearSYS = () => {
   //   if (err) return console.error(err);
   //   return console.info(`Has generated mock data into ${SYS}`);
   // });
-}
+};
+
+export const generateTasks = () => {
+  const downloadPaths = JSON.parse(fs.readFileSync(MATERIAL.DOWNLOAD_PATHS, 'utf8'));
+  let sum = 100;
+  for (let i = 0; i < sum; i++) {
+    const createTimeMonth = randomNum(12, 1);
+    const createTimeDay = randomNum(28, 1);
+    const createTimeHour = randomNum(24);
+    const createTimeMinute = randomNum(60);
+    const costTime = randomNum(120, 5);
+    const finalMinute = (costTime + createTimeMinute) % 60
+    let finalHour = createTimeHour + parseInt(`${(costTime + createTimeMinute) / 60}`, 10);
+    let finalDay = createTimeDay;
+    if (finalHour >= 24) {
+      finalHour = 0;
+      finalDay += 1;
+    }
+    // console.log(`2020-${createTimeMonth}-${createTimeDay} ${createTimeHour}:${createTimeMinute}`);
+    // console.log(`2020-${createTimeMonth}-${finalDay} ${finalHour}:${finalMinute}`);
+    tasks.push({
+      id: i + 1,
+      type: randomNum(3, 1),
+      status: randomNum(7),
+      name: `${guid(10)}`,
+      url: downloadPaths[randomNum(17)],
+      createTime: Number(new Date(`2020-${createTimeMonth}-${createTimeDay} ${createTimeHour}:${createTimeMinute}`)),
+      updateTime: Number(new Date(`2020-${createTimeMonth}-${finalDay} ${finalHour}:${finalMinute}`)),
+    });
+  }
+  writeToPath(TASKS, tasks, { headers: true }).on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing tasks.csv'));
+};
 
 export const generateAllData = () => {
-  generalOrgs();
-  generalUser();
-  generalDevices();
-  generalPatients();
-  generalRecords();
+  generateOrgs();
+  generateUser();
+  generateDevices();
+  generatePatients();
+  generateRecords();
+  generateTasks();
 };
