@@ -185,13 +185,7 @@ export default {
           status: 200,
           error_code: 0,
           error_message: '',
-          data: [{
-            ...pdfSummary,
-            processing: 0,
-            finished:0,
-            interrupted: 0,
-            unexpired: 6,
-          }, dataSummary]
+          data: [pdfSummary, dataSummary]
         });
       });
   }
