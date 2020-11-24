@@ -56,6 +56,8 @@ export interface TASK_SUMMARY_INFO {
   finished: number,
   interrupted: number,
   unexpired: number,
+  nostart: number,
+  latest_status: TASK_STATUS,
 }
 
 export interface TASK_RES_DATA {

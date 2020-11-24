@@ -146,6 +146,8 @@ export default {
       finished: 0,
       interrupted: 0,
       unexpired: 0,
+      nostart: 0,
+      latest_status: 1,
     };
     const dataSummary: TASK_SUMMARY_INFO = {
       task_type: TASK_TYPE.data,
@@ -153,10 +155,19 @@ export default {
       finished: 0,
       interrupted: 0,
       unexpired: 0,
+      nostart: 0,
+      latest_status: 4,
     }
     parseFile(TASKS, { headers: true })
       .on('data', row => {
-        if (row.status === `${TASK_STATUS.IP}` || row.status === `${TASK_STATUS.IDLE}`) {
+        if (row.status === `${TASK_STATUS.IDLE}`) {
+          if (row.type === `${TASK_TYPE.pdf}`) {
+            pdfSummary.nostart += 1;
+          } else {
+            dataSummary.nostart += 1;
+          }
+        }
+        if (row.status === `${TASK_STATUS.IP}`) {
           if (row.type === `${TASK_TYPE.pdf}`) {
             pdfSummary.processing += 1;
           } else {
@@ -185,7 +196,11 @@ export default {
           status: 200,
           error_code: 0,
           error_message: '',
-          data: [pdfSummary, dataSummary]
+          data: [{
+            ...pdfSummary,
+            processing: 6,
+            nostart: 1,
+          }, dataSummary]
         });
       });
   }

@@ -15,6 +15,25 @@ const USERS = path.resolve(__dirname, '../MockData', 'users.csv');
 const PRODUCT_INFO = path.join(__dirname, '../MockData/RawMaterials/productInfo.json');
 const ORGS = path.join(__dirname, '../MockData/orgs.json');
 
+const healthRecord = {
+  bg_empty: 12,
+  bg_full: 13.52,
+  bg_low: 0,
+  birthday: '2102-12-02',
+  bp_high: 0,
+  bp_low: 0,
+  gender: 'M',
+  height: 0,
+  icon: '',
+  is_smoke: 0,
+  ID_number: '310108198612222555',
+  location: 'Shanghai',
+  mobile: '121312123',
+  name: 'USER NAME',
+  smoke_years: 1,
+  weight: 105,
+};
+
 export default {
   login: (req: Request, res: Response, isUserAPI: boolean = false) => {
     // const orgs = JSON.parse(fs.readFileSync(ORGS, 'utf8'));
@@ -214,17 +233,22 @@ export default {
       const reqData = JSON.parse(str);
       const { mobile } = reqData;
       if (mobile === '18516202611') {
-        res.json({
+        setTimeout(() => res.json({
           // status: res.statusCode,
           "error_message": "",
           "patient_status": 1,
+          "patient_wechat": 1,
           "pwd_status": 1,
-          "openid": "oEj1Gvy5qSM7GUNdc7fzU2_HfK68"
-        });
+          "openid": ""
+        }), 8000);
       } else {
-        res.statusCode = 400;
+        // res.statusCode = 400;
         res.json({
           "error_message": "Failed",
+          "patient_status": 0,
+          "patient_wechat": 1,
+          "pwd_status": 1,
+          "openid": ""
         });
       }
       //   const request = new XMLHttpRequest();
@@ -263,30 +287,18 @@ export default {
     });
   },
 
+
   health_record: (req: Request, res: Response) => {
     res.json({
       status: 200,
       error_message: '',
-      bg_empty: 12,
-      bg_full: 13.52,
-      bg_low: 1.322,
-      birthday: '2019-12-02',
-      bp_high: 33,
-      bp_low: 55,
-      gender: 'M',
-      height: 185,
-      icon: '',
-      is_smoke: -1,
-      ID_number: '310108198612222555',
-      location: 'Shanghai',
-      mobile: '121312123',
-      name: 'USER NAME',
-      smoke_years: 1,
-      weight: 105,
+      ...healthRecord
     });
   },
 
   update_health_record: (req: Request, res: Response) => {
+
+    healthRecord.height = 111;
     res.json({
       status: 200,
       error_message: ''

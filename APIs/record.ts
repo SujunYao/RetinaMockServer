@@ -309,7 +309,7 @@ export default {
       },
       "reservation": {
         "id": 2,
-        "status": "",
+        "status": "confirming",
         "select_time": [
           {
             "year": 2020,
@@ -371,7 +371,8 @@ export default {
               "day": 12,
               "weekday": "Tuesday",
               "available": [
-                "afternoon"
+                "afternoon",
+                "morning"
               ]
             },
             {
@@ -396,6 +397,14 @@ export default {
           "5": [
             {
               "day": 15,
+              "weekday": "Sunday",
+              "available": [
+                "morning",
+                "afternoon"
+              ]
+            },
+            {
+              "day": 16,
               "weekday": "Sunday",
               "available": [
                 "morning",
@@ -480,7 +489,35 @@ export default {
           "transfer_reexam": "\u5efa\u8bae\u8f6c\u81f3\u773c\u79d1\u5c31\u8bca,\u5b9a\u671f\u8fdb\u884c\u590d\u67e5\u6216\u9075\u533b\u5631",
           "reservation": {
             "id": 107,
-            "status": "expired",
+            "status": "confirming",
+            "select_time": [{
+              "year": 2020,
+              "month": 11,
+              "day": 4,
+              "available": "morning"
+            }, {
+              "year": 2020,
+              "month": 11,
+              "day": 4,
+              "available": "afternoon"
+            }, {
+              "year": 2020,
+              "month": 11,
+              "day": 5,
+              "available": "afternoon"
+            }],
+            "confirm_time": {
+
+            }
+          }
+        }, {
+          "id": 756,
+          "examTime": "2020-11-03",
+          "disease": "\u589e\u6b96\u6027DR",
+          "transfer_reexam": "\u5efa\u8bae\u8f6c\u81f3\u773c\u79d1\u5c31\u8bca,\u5b9a\u671f\u8fdb\u884c\u590d\u67e5\u6216\u9075\u533b\u5631",
+          "reservation": {
+            "id": 117,
+            "status": "",
             "select_time": [{
               "year": 2020,
               "month": 11,
